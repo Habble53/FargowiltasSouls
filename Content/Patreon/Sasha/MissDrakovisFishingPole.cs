@@ -103,7 +103,7 @@ namespace FargowiltasSouls.Content.Patreon.Sasha
                         {
                             float modifier = 1f - 0.75f / 2f * Math.Abs(i);
                             Projectile.NewProjectile(source, position, modifier * speed.RotatedBy(MathHelper.ToRadians(9) * i),
-                                ModContent.ProjectileType<Bubble>(), damage, knockback, player.whoAmI);
+                                ModContent.ProjectileType<Bubble>(), damage / 2, knockback, player.whoAmI);
                         }
                     }
                     break;
@@ -163,7 +163,7 @@ namespace FargowiltasSouls.Content.Patreon.Sasha
                 //magic
                 case 3:
                     Item.DamageType = DamageClass.Magic;
-                    Item.mana = 15;
+                    Item.mana = 45;
                     Item.shoot = ModContent.ProjectileType<Bubble>();
 
                     Item.knockBack = 3f;
