@@ -43,7 +43,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            npc.damage = (int)(npc.damage * 1.05f);
+            npc.damage = (int)(npc.damage * 1.15f);
             npc.lifeMax = (int)(npc.lifeMax * 0.8f);
         }
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
@@ -501,7 +501,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         {
             base.OnHitPlayer(npc, target, hurtInfo);
 
-            //target.AddBuff(ModContent.BuffType<DefenselessBuff>(), 300);
+            target.AddBuff(ModContent.BuffType<DefenselessBuff>(), 300);
             target.AddBuff(ModContent.BuffType<LethargicBuff>(), 300);
         }
 
@@ -531,8 +531,8 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         public override void SetDefaults(NPC npc)
         {
             base.SetDefaults(npc);
-            npc.damage = (int)(npc.damage * 1.6f); 
-            npc.lifeMax = (int)(npc.lifeMax * 1.2f);
+            npc.damage = (int)(npc.damage * 1.8f); //deals slightly more damage than head
+            npc.lifeMax = (int)(npc.lifeMax * 1.4f);
         }
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
@@ -624,7 +624,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 if (AttackTimer != GuardianTime + GuardianDelay)
                 {
                     AttackTimer = GuardianTime + GuardianDelay;
-                    /*
+
                     if (FargoSoulsUtil.HostCheck && npc.HasPlayerTarget && head.life >= head.lifeMax / 2) //throw undead miner
                     {
                         float gravity = 0.4f; //shoot down
@@ -645,7 +645,6 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                             }),
                             velocity: distance);
                     }
-                    */
                 }
             }
 

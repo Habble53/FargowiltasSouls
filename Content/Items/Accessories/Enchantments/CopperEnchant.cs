@@ -71,7 +71,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 CopperProc(player, target);
                 FargoSoulsPlayer modPlayer = player.FargoSouls();
                 if (modPlayer.CopperProcCD > 0)
-                    modPlayer.CopperProcCD -= 2;
+                    modPlayer.CopperProcCD -= 3;
             }
         }
 
@@ -85,9 +85,9 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 bool forceEffect = modPlayer.ForceEffect<CopperEnchant>();
                 target.AddBuff(BuffID.Electrified, 180);
 
-                int dmg = 40;
+                int dmg = 60;
                 int arcs = 5;
-                int cdLength = 60 * 5;
+                int cdLength = 60 * 4;
 
                 if (forceEffect)
                 {

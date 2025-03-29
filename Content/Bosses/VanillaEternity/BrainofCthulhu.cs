@@ -493,11 +493,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)
         {
             if (npc.life > 0)
-            {
-                float resist = MathHelper.Lerp(1f, 0.3f, 1f - Math.Max(0.12f, (float)Math.Sqrt((double)npc.life / npc.lifeMax)));
-                modifiers.FinalDamage *= resist;
-            }
-                
+                modifiers.FinalDamage *= Math.Max(0.18f, (float)Math.Sqrt((double)npc.life / npc.lifeMax));
 
             if (KnockbackImmune)
             {
@@ -557,7 +553,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         {
             base.SetDefaults(npc);
 
-            npc.lifeMax = (int)Math.Round(npc.lifeMax * 1.2);
+            npc.lifeMax = (int)Math.Round(npc.lifeMax * 1.5);
 
             IchorAttackTimer = Main.rand.Next(60 * NPC.CountNPCS(NPCID.Creeper)) + Main.rand.Next(61) + 60;
         }

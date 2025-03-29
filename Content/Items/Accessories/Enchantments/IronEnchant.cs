@@ -83,7 +83,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
             FargoSoulsPlayer modPlayer = player.FargoSouls();
             if (modPlayer.IronReductionDuration > 0)
             {
-                player.endurance += player.HasEffectEnchant<IronPickupEffect>() && player.ForceEffect<IronPickupEffect>() ? 0.28f : 0.14f;
+                player.endurance += player.HasEffectEnchant<IronPickupEffect>() && player.ForceEffect<IronPickupEffect>() ? 0.35f : 0.2f;
                 modPlayer.IronReductionDuration--;
             }
         }

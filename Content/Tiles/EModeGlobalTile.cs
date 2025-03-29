@@ -1,15 +1,11 @@
 ﻿using FargowiltasSouls.Content.Buffs.Masomode;
-using FargowiltasSouls.Content.Projectiles.Masomode;
 using FargowiltasSouls.Core.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace FargowiltasSouls.Content.Tiles
 {
@@ -111,21 +107,6 @@ namespace FargowiltasSouls.Content.Tiles
                     }
                 }
             }
-        }
-        public override void RandomUpdate(int i, int j, int type)
-        {
-            if (!WorldSavingSystem.EternityMode)
-                return;
-            if (type == TileID.Trees && WorldGen.IsTileALeafyTreeTop(i, j))
-            {
-                WorldGen.GetTreeBottom(i, j, out int x, out int y);
-                TreeTypes tree = WorldGen.GetTreeType(Main.tile[x, y].TileType);
-                if (tree == TreeTypes.Crimson || tree == TreeTypes.PalmCrimson)
-                {
-                    Projectile.NewProjectileDirect(new EntitySource_TileUpdate(i, j), new Vector2(i, j).ToWorldCoordinates() + new Vector2(Main.rand.NextFloat(0, 20), 0).RotatedByRandom(MathHelper.TwoPi), Vector2.Zero, ModContent.ProjectileType<BloodDroplet>(), 0, 0);
-                }
-            }
-            base.RandomUpdate(i, j, type);
         }
     }
 }

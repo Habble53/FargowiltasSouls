@@ -76,9 +76,9 @@ namespace FargowiltasSouls.Content.Bosses.Champions.Shadow
             target.AddBuff(BuffID.Darkness, 300);
             if (WorldSavingSystem.EternityMode)
             {
-                //target.AddBuff(ModContent.BuffType<ShadowflameBuff>(), 300);
-                //target.AddBuff(BuffID.Blackout, 300);
-                //target.AddBuff(ModContent.BuffType<DefenselessBuff>(), 300);
+                target.AddBuff(ModContent.BuffType<ShadowflameBuff>(), 300);
+                target.AddBuff(BuffID.Blackout, 300);
+                target.AddBuff(ModContent.BuffType<DefenselessBuff>(), 300);
                 target.AddBuff(ModContent.BuffType<LethargicBuff>(), 300);
             }
             if (FargoSoulsUtil.BossIsAlive(ref EModeGlobalNPC.guardBoss, NPCID.DungeonGuardian))

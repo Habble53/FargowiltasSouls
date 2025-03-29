@@ -295,6 +295,9 @@ namespace FargowiltasSouls.Core.ModPlayers
                 target.AddBuff(BuffID.Electrified, 240);
                 target.AddBuff(ModContent.BuffType<LightningRodBuff>(), 60);
             }
+
+            if (DarkenedHeartItem != null)
+                DarkenedHeartAttack(projectile);
         }
 
         public override void OnHitNPCWithItem(Item item, NPC target, NPC.HitInfo hit, int damageDone)

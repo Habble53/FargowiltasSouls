@@ -67,6 +67,10 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                     return;
                 if (projectile != null && projectile.type == ProjectileID.SnowBallFriendly)
                     return;
+                //int damage = hitInfo.SourceDamage;
+                //damage = 800;
+                //damage = (int)(damage * 0.35f);
+                //damage = (int)MathHelper.Clamp(damage, 0, 800); // big sting could be roughly 1700 here
                 BorealSnowballs(player, baseDamage);
             }
                 
@@ -90,17 +94,16 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 {
                     snowballDamage *= player.ActualClassDamage(DamageClass.Ranged);
                     float softcapMult = forceEffect ? (20f / 3f) : 1f;
-                    if (snowballDamage > (12f * softcapMult)) // diminishing returns above 15 snowballDamage for non wiz, 100 for wiz
-                        snowballDamage = (float)Math.Round(((24f * softcapMult) + snowballDamage) / 3f); // e.g. non wiz 30 -> 20, wiz 200 -> 150 etc. (https://www.desmos.com/calculator/vyaqqoegxq)
+                    if (snowballDamage > (25f * softcapMult)) // diminishing returns above 15 snowballDamage for non wiz, 100 for wiz (post-deflation numbers; current numbers are higher)
+                        snowballDamage = (float)Math.Round(((50f * softcapMult) + snowballDamage) / 3f); // e.g. non wiz 30 -> 20, wiz 200 -> 150 etc. (https://www.desmos.com/calculator/vyaqqoegxq)
                 }
                 if (player.HasEffect<TimberEffect>())
                     snowballDamage = 400;
                 int p = Projectile.NewProjectile(player.GetSource_Accessory(item), player.Center, vel, ProjectileID.SnowBallFriendly, (int)snowballDamage, 1, Main.myPlayer);
 
                 int numSnowballs = forceEffect ? 7 : 3;
-                float angle = MathHelper.Pi / 10;
-                FargoSoulsGlobalProjectile.SplitProj(Main.projectile[p], numSnowballs, angle, 1);
-
+                if (p != Main.maxProjectiles)
+                    FargoSoulsGlobalProjectile.SplitProj(Main.projectile[p], numSnowballs, MathHelper.Pi / 10, 1);
             }
         }
     }

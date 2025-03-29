@@ -519,8 +519,8 @@ namespace FargowiltasSouls.Content.Projectiles
                         //detect being hit
                         if (orb.Alive() && orb.ai[0] == 0f && projectile.owner == orb.owner && projectile.Colliding(projectile.Hitbox, orb.Hitbox))
                         {
-                            int numBalls = 4;
-                            int dmg = 20;
+                            int numBalls = 5;
+                            int dmg = 25;
 
                             if (modPlayer.AncientShadowEnchantActive)
                             {
@@ -1501,7 +1501,7 @@ namespace FargowiltasSouls.Content.Projectiles
 
             if (player.HasEffect<NinjaDamageEffect>() && player.ActualClassCrit(projectile.DamageType) > 0 && projectile.CritChance > 0)
             {
-                float maxIncrease = modPlayer.ForceEffect<NinjaEnchant>() ? 0.4f : 0.12f;
+                float maxIncrease = modPlayer.ForceEffect<NinjaEnchant>() ? 0.4f : 0.2f;
                 float increase = maxIncrease * Math.Clamp((projectile.extraUpdates + 1) * projectile.velocity.Length() / 40f, 0, 1);
                 if (Main.rand.NextFloat() < increase)
                     modifiers.SetCrit();

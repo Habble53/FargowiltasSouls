@@ -75,7 +75,7 @@ namespace FargowiltasSouls.Content.Projectiles.Masomode
                     target.endurance = endurance;
 
                     if (FargoSoulsUtil.BossIsAlive(ref EModeGlobalNPC.deviBoss, ModContent.NPCType<DeviBoss>()))
-                        target.AddBuff(ModContent.BuffType<LovestruckBuff>(), 120);
+                        target.AddBuff(ModContent.BuffType<LovestruckBuff>(), 240);
                 }
                 else
                 {

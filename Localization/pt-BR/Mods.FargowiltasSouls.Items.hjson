@@ -277,7 +277,7 @@ IronEnchant: {
 		Increases item grab range
 		Works when equipped:
 		Item grab range affects pickup items such as Hearts, Mana Stars and Nebula Boosters
-		Picking up an item or pickup increases damage reduction by 14% for 5 seconds
+		Picking up an item or pickup increases damage reduction by 20% for 5 seconds
 		'Strike while the iron is hot'
 		''' */
 	/* VanityTooltip:
@@ -391,7 +391,7 @@ NinjaEnchant: {
 	// DisplayName: Ninja Enchantment
 	/* Tooltip:
 		'''
-		Your projectiles have up to 12% extra critical strike chance, scaling with how fast they're moving
+		Your projectiles have up to 20% extra critical strike chance, scaling with how fast they're moving
 		Drastically increases projectile speed while you're moving slowly
 		'Wait for when the moment is right'
 		''' */
@@ -672,7 +672,7 @@ TungstenEnchant: {
 	/* Tooltip:
 		'''
 		Increases melee weapon size by 50% and whip range by 20%
-		Your attacks cause a shockwave with huge knockback
+		Your attacks cause a shockwave with huge knockback that deals less damage on the original target
 		2.5 second cooldown
 		'Bigger is always better'
 		''' */
@@ -1113,7 +1113,7 @@ DarkenedHeart: {
 		'''
 		Grants immunity to Rotting
 		10% increased movement speed and increased turnaround traction
-		Mini eaters emerge from nearby terrain while attacking, seeking out nearby enemies
+		You spawn mini eaters that inflict Cursed Inferno to seek out enemies every few attacks
 		'Flies refuse to approach it'
 		''' */
 }

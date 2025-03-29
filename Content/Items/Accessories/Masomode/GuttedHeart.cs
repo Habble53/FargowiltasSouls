@@ -52,7 +52,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Masomode
 
             if (modPlayer.GuttedHeartCD <= 0)
             {
-                int cd = (int)Math.Round(Utils.Lerp(15 * 60, 25 * 60, (float)Player.statLife / Player.statLifeMax2));
+                int cd = (int)Math.Round(Utils.Lerp(10 * 60, 15 * 60, (float)Player.statLife / Player.statLifeMax2));
                 modPlayer.GuttedHeartCD = cd;
                 if (Player.HasEffect<GuttedHeartMinions>())
                 {
@@ -62,7 +62,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Masomode
                         if (Main.npc[i].active && Main.npc[i].type == ModContent.NPCType<CreeperGutted>() && Main.npc[i].ai[0] == Player.whoAmI)
                             count++;
                     }
-                    if (count < 3)
+                    if (count < 5)
                     {
                         int multiplier = 1;
                         if (modPlayer.PureHeart)

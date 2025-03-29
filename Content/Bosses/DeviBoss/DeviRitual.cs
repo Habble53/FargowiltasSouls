@@ -26,7 +26,7 @@ namespace FargowiltasSouls.Content.Bosses.DeviBoss
         {
             base.OnHitPlayer(target, info);
 
-            target.AddBuff(ModContent.BuffType<Buffs.Masomode.LovestruckBuff>(), 120);
+            target.AddBuff(ModContent.BuffType<Buffs.Masomode.LovestruckBuff>(), 240);
         }
 
         public override bool PreDraw(ref Color lightColor)

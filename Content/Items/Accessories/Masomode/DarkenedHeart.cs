@@ -1,13 +1,9 @@
 ﻿using FargowiltasSouls.Content.Buffs;
-using FargowiltasSouls.Content.Buffs.Masomode;
-using FargowiltasSouls.Content.Items.Accessories.Souls;
 using FargowiltasSouls.Core.AccessoryEffectSystem;
-using FargowiltasSouls.Core.ModPlayers;
 using FargowiltasSouls.Core.Toggler.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -49,59 +45,6 @@ namespace FargowiltasSouls.Content.Items.Accessories.Masomode
         public override Header ToggleHeader => Header.GetHeader<PureHeartHeader>();
         public override int ToggleItemType => ModContent.ItemType<DarkenedHeart>();
         public override bool ExtraAttackEffect => true;
-
-        public override void PostUpdateEquips(Player player)
-        {
-            FargoSoulsPlayer modPlayer = player.FargoSouls();
-            if (modPlayer.WeaponUseTimer > 0 && modPlayer.DarkenedHeartCD <= 0)
-            {
-                modPlayer.DarkenedHeartCD = 25;
-
-                for (int i = 0; i < 300; i++) // 300 attempts
-                {
-                    Vector2 pos = player.Center + Main.rand.NextVector2Circular(16 * 18, 16 * 18);
-                    Point tilePos = LumUtils.FindGroundVertical(pos.ToTileCoordinates());
-                    if (WorldGen.SolidTile(tilePos) || WorldGen.SolidTile(new Point(tilePos.X, tilePos.Y - 1)))
-                    {
-                        pos = tilePos.ToWorldCoordinates();
-                        if (pos.Distance(player.Center) < 16 * 30)
-                        {
-                            EaterAttack(pos + pos.DirectionTo(player.Center) * 20, player);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        public static void EaterAttack(Vector2 pos, Player player)
-        {
-            //SoundEngine.PlaySound(SoundID.NPCHit1, pos); blegh
-            for (int index1 = 0; index1 < 4; ++index1)
-            {
-                int index2 = Dust.NewDust(pos - player.Size / 2, player.width, player.height, DustID.ScourgeOfTheCorruptor, 0.0f, 0.0f, 0, new Color(), 1f);
-                Dust dust = Main.dust[index2];
-                dust.scale *= 1.1f;
-                Main.dust[index2].noGravity = true;
-            }
-            for (int index1 = 0; index1 < 6; ++index1)
-            {
-                int index2 = Dust.NewDust(pos - player.Size / 2, player.width, player.height, DustID.ScourgeOfTheCorruptor, 0.0f, 0.0f, 0, new Color(), 1f);
-                Dust dust1 = Main.dust[index2];
-                dust1.velocity *= 2.5f;
-                Dust dust2 = Main.dust[index2];
-                dust2.scale *= 0.8f;
-                Main.dust[index2].noGravity = true;
-            }
-            int dam = player.FargoSouls().PureHeart ? 35 : 13;
-            if (player.FargoSouls().MasochistSoul)
-                dam *= 2;
-            Vector2 vel = pos.DirectionTo(player.Center).RotatedByRandom(MathHelper.PiOver2 * 0.7f) * Main.rand.NextFloat(6, 10);
-            int p = Projectile.NewProjectile(player.GetSource_EffectItem<DarkenedHeartEaters>(), pos.X, pos.Y, vel.X, vel.Y, ProjectileID.TinyEater, (int)(dam * player.ActualClassDamage(DamageClass.Melee)), 1.75f, player.whoAmI);
-            if (p.IsWithinBounds(Main.maxProjectiles))
-            {
-                Main.projectile[p].DamageType = DamageClass.Default;
-            }
-        }
 
     }
     public class TinyEaterGlobalProjectile : GlobalProjectile
@@ -145,11 +88,11 @@ namespace FargowiltasSouls.Content.Items.Accessories.Masomode
             {
                 if (HeartItemType != ModContent.ItemType<DarkenedHeart>())
                 {
-                    target.AddBuff(ModContent.BuffType<SublimationBuff>(), 30);
+                    target.AddBuff(ModContent.BuffType<SublimationBuff>(), 60 * 2);
                 }
                 else
                 {
-                    target.AddBuff(ModContent.BuffType<RottingBuff>(), 30);
+                    target.AddBuff(BuffID.CursedInferno, 60 * 2);
                 }
 
 

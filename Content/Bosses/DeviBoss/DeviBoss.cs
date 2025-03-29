@@ -122,10 +122,10 @@ namespace FargowiltasSouls.Content.Bosses.DeviBoss
             }
             NPC.damage = 64;
             NPC.defense = 10;
-            NPC.lifeMax = 5500;
+            NPC.lifeMax = 6000;
             if (WorldSavingSystem.EternityMode)
             {
-                NPC.lifeMax = (int)Math.Round(NPC.lifeMax * 1.1f);
+                NPC.lifeMax = (int)Math.Round(NPC.lifeMax * 1.5f);
 
                 if (!Main.masterMode) //master mode is already long enough
                     NPC.lifeMax = (int)Math.Round(NPC.lifeMax * 1.4f);
@@ -2135,7 +2135,7 @@ namespace FargowiltasSouls.Content.Bosses.DeviBoss
 
         public override void OnHitPlayer(Player target, Player.HurtInfo hurtInfo)
         {
-            target.AddBuff(ModContent.BuffType<LovestruckBuff>(), 120);
+            target.AddBuff(ModContent.BuffType<LovestruckBuff>(), 240);
         }
 
         public override void HitEffect(NPC.HitInfo hit)
@@ -2193,7 +2193,7 @@ namespace FargowiltasSouls.Content.Bosses.DeviBoss
 
                     Vector2 speed = Main.rand.NextFloat(1, 2) * Vector2.UnitX.RotatedByRandom(Math.PI * 2);
                     float ai1 = 30 + Main.rand.Next(30);
-                    Projectile.NewProjectile(NPC.GetSource_FromThis(), player.Center, speed, ModContent.ProjectileType<HostileHealingHeart>(), hitInfo.Damage / 5, 0f, Main.myPlayer, NPC.whoAmI, ai1);
+                    Projectile.NewProjectile(NPC.GetSource_FromThis(), player.Center, speed, ModContent.ProjectileType<HostileHealingHeart>(), hitInfo.Damage / 2, 0f, Main.myPlayer, NPC.whoAmI, ai1);
 
                     hitInfo.Null();
                 };

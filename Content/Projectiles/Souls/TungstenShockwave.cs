@@ -87,9 +87,9 @@ namespace FargowiltasSouls.Content.Projectiles.Souls
         }
         public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
         {
-            modifiers.Knockback *= 3;
-            //if (target.whoAmI == Projectile.ai[0])
-            modifiers.FinalDamage *= 0.5f;
+            modifiers.Knockback *= 4;
+            if (target.whoAmI == Projectile.ai[0])
+                modifiers.FinalDamage *= 0.5f;
         }
         /*
         public override void OnKill(int timeLeft)

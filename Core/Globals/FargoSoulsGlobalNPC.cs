@@ -721,10 +721,10 @@ namespace FargowiltasSouls.Core.Globals
                 if (npc.lifeRegen > 0)
                     npc.lifeRegen = 0;
 
-                npc.lifeRegen -= 20;
+                npc.lifeRegen -= 100;
 
-                if (damage < 2)
-                    damage = 2;
+                if (damage < 5)
+                    damage = 5;
             }
 
             if (LeadPoison)
@@ -734,7 +734,7 @@ namespace FargowiltasSouls.Core.Globals
                     npc.lifeRegen = 0;
                 }
 
-                int dot = npc.type == NPCID.EaterofWorldsBody ? 4 : 16;
+                int dot = npc.type == NPCID.EaterofWorldsBody ? 4 : 20;
 
                 //calamity worms mod compat
                 if (ModLoader.HasMod("CalamityMod"))
@@ -799,10 +799,10 @@ namespace FargowiltasSouls.Core.Globals
                 if (npc.lifeRegen > 0)
                     npc.lifeRegen = 0;
 
-                npc.lifeRegen -= 20;
+                npc.lifeRegen -= 50;
 
-                if (damage < 2)
-                    damage = 2;
+                if (damage < 5)
+                    damage = 5;
             }
 
             //12 dps 
@@ -1339,13 +1339,9 @@ namespace FargowiltasSouls.Core.Globals
             if (player.HasEffect<EbonwoodEffect>())
             {
                 float divisor = 50;
-                float mult = (4f / 5);
                 if (player.HasEffect<TimberEffect>())
-                {
                     divisor = 35;
-                    mult = 1f;
-                }
-                modifiers.FlatBonusDamage += (int) (mult * modPlayer.EbonwoodCharge / divisor);
+                modifiers.FlatBonusDamage += (int) (modPlayer.EbonwoodCharge / divisor);
             }
 
             if (OceanicMaul)
@@ -1363,7 +1359,7 @@ namespace FargowiltasSouls.Core.Globals
 
             if (MoltenAmplify)
             {
-                float modifier = 1.15f;
+                float modifier = 1.2f;
                 if (!player.HasEffectEnchant<MoltenEffect>())
                     modifier = 1.15f;
                 else if (player.ForceEffect<MoltenEffect>())

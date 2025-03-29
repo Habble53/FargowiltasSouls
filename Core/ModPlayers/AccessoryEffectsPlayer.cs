@@ -185,7 +185,54 @@ namespace FargowiltasSouls.Core.ModPlayers
         }
 
 
+        public void DarkenedHeartAttack(Projectile projectile)
+        {
+            if (DarkenedHeartCD <= 0)
+            {
+                DarkenedHeartCD = 60;
 
+                if (Player.HasEffect<DarkenedHeartEaters>() && (projectile == null || projectile.type != ProjectileID.TinyEater))
+                {
+                    SoundEngine.PlaySound(SoundID.NPCHit1, Player.Center);
+                    for (int index1 = 0; index1 < 20; ++index1)
+                    {
+                        int index2 = Dust.NewDust(Player.position, Player.width, Player.height, DustID.ScourgeOfTheCorruptor, 0.0f, 0.0f, 0, new Color(), 1f);
+                        Dust dust = Main.dust[index2];
+                        dust.scale *= 1.1f;
+                        Main.dust[index2].noGravity = true;
+                    }
+                    for (int index1 = 0; index1 < 30; ++index1)
+                    {
+                        int index2 = Dust.NewDust(Player.position, Player.width, Player.height, DustID.ScourgeOfTheCorruptor, 0.0f, 0.0f, 0, new Color(), 1f);
+                        Dust dust1 = Main.dust[index2];
+                        dust1.velocity *= 2.5f;
+                        Dust dust2 = Main.dust[index2];
+                        dust2.scale *= 0.8f;
+                        Main.dust[index2].noGravity = true;
+                    }
+                    int num = 2;
+                    if (Main.rand.NextBool(3))
+                        ++num;
+                    if (Main.rand.NextBool(6))
+                        ++num;
+                    if (Main.rand.NextBool(9))
+                        ++num;
+                    int dam = PureHeart ? 35 : 13;
+                    if (MasochistSoul)
+                        dam *= 2;
+                    for (int index = 0; index < num; ++index)
+                    {
+                        int p = Projectile.NewProjectile(Player.GetSource_Accessory(DarkenedHeartItem), Player.Center.X, Player.Center.Y, Main.rand.Next(-35, 36) * 0.02f * 10f,
+                            Main.rand.Next(-35, 36) * 0.02f * 10f, ProjectileID.TinyEater, (int)(dam * Player.ActualClassDamage(DamageClass.Melee)), 1.75f, Player.whoAmI);
+                        if (p.IsWithinBounds(Main.maxProjectiles))
+                        {
+                            Main.projectile[p].DamageType = DamageClass.Default;
+                        }
+                    }
+                        
+                }
+            }
+        }
 
         public void FrigidGemstoneKey()
         {

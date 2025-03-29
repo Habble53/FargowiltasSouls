@@ -817,8 +817,3 @@ TouhouHoardBuff: {
 	DisplayName: Mystical Horde
 	Description: The mythical beings will fight for you
 }
-
-BleedingOut: {
-	DisplayName: Bleeding Out
-	Description: Mods.FargowiltasSouls.Buffs.BleedingOut.Description
-}

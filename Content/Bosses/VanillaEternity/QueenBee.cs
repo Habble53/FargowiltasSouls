@@ -76,7 +76,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         {
             base.SetDefaults(npc);
 
-            npc.lifeMax = (int)Math.Round(npc.lifeMax * 1f);
+            npc.lifeMax = (int)Math.Round(npc.lifeMax * 1.4005);
         }
 
         public override void OnFirstTick(NPC npc)
@@ -92,7 +92,6 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             //FargoSoulsUtil.PrintAI(npc);
 
             EModeGlobalNPC.beeBoss = npc.whoAmI;
-            Main.LocalPlayer.buffImmune[ModContent.BuffType<SwarmingBuff>()] = true;
 
             if (npc.ai[0] == 0) // sound fix
             {
@@ -735,14 +734,12 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             base.OnHitPlayer(npc, target, hurtInfo);
 
             target.AddBuff(ModContent.BuffType<InfestedBuff>(), 300);
-            //target.AddBuff(ModContent.BuffType<SwarmingBuff>(), 600);
+            target.AddBuff(ModContent.BuffType<SwarmingBuff>(), 600);
 
-            
-            if (npc.ai[0] == 0 && WorldSavingSystem.MasochistModeReal) //in dash mode
+            if (npc.ai[0] == 0) //in dash mode
             {
                 target.AddBuff(BuffID.BrokenArmor, 60 * 5);
             }
-            
         }
 
         public override void ModifyIncomingHit(NPC npc, ref NPC.HitModifiers modifiers)

@@ -341,7 +341,6 @@ namespace FargowiltasSouls.Core.ModPlayers
         public bool Unlucky;
         public bool DisruptedFocus;
         public bool BaronsBurden;
-        public bool BleedingOut;
 
         public bool Smite;
         public bool Anticoagulation;

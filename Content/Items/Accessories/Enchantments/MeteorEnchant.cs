@@ -135,7 +135,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 return;
 
             bool forceEffect = modPlayer.ForceEffect<MeteorEnchant>();
-            int damage = forceEffect ? 400 : 45;
+            int damage = forceEffect ? 400 : 70;
             modPlayer.MeteorCD = Cooldown;
 
             if (player.whoAmI == Main.myPlayer)

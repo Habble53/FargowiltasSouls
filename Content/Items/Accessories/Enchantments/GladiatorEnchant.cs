@@ -80,7 +80,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 modPlayer.GladiatorStandardCD--;
             if (player.HasBuff<GladiatorBuff>())
             {
-                float stats = 0.05f;
+                float stats = 0.08f;
                 if (modPlayer.ForceEffect<GladiatorEnchant>())
                     stats = 0.1f;
                 player.GetDamage(DamageClass.Generic) += stats;
@@ -140,7 +140,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 bool force = modPlayer.ForceEffect<GladiatorEnchant>();
 
                 bool buff = player.HasBuff<GladiatorBuff>();
-                float spearDamage = baseDamage / (buff ? 4f : 6f);
+                float spearDamage = baseDamage / (buff ? 3f : 5f);
                 spearDamage *= player.ActualClassDamage(DamageClass.Ranged) / player.ActualClassDamage(hitInfo.DamageType);
                 spearDamage = (float)Math.Round(spearDamage);
 
@@ -152,8 +152,8 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                     if (!modPlayer.TerrariaSoul)
                     {
                         float softcapMult = force ? 5f : 1f;
-                        if (spearDamage > (10f * softcapMult))
-                            spearDamage = ((20f * softcapMult) + spearDamage) / 3f; // refer to Boreal Wood Enchantment for new softcap
+                        if (spearDamage > (20f * softcapMult))
+                            spearDamage = ((40f * softcapMult) + spearDamage) / 3f; // refer to Boreal Wood Enchantment for new softcap
                     }
 
                     Item effectItem = EffectItem(player);

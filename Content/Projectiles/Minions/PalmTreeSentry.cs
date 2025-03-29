@@ -72,7 +72,7 @@ namespace FargowiltasSouls.Content.Projectiles.Minions
                 {
                     float dist = Vector2.Distance(Projectile.Center, Main.npc[i].Center);
 
-                    if (dist < num && dist < 420 && Main.npc[i].CanBeChasedBy(Projectile, false))
+                    if (dist < num && dist < 300 && Main.npc[i].CanBeChasedBy(Projectile, false))
                     {
                         npcIndex = i;
                         num = dist;
@@ -85,7 +85,7 @@ namespace FargowiltasSouls.Content.Projectiles.Minions
 
                     if (Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, target.position, target.width, target.height))
                     {
-                        Vector2 velocity = Vector2.Normalize(target.Center - Projectile.Center) * 16;
+                        Vector2 velocity = Vector2.Normalize(target.Center - Projectile.Center) * 10;
 
                         int p = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, velocity, ProjectileID.SeedlerNut, Projectile.damage, 2, Projectile.owner);
                         if (p != Main.maxProjectiles)

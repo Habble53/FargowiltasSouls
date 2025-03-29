@@ -73,7 +73,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
 
             bool forceEffect = modPlayer.ForceEffect<EbonwoodEnchant>();
             float chargeCap = forceEffect ? 500 : 250;
-            float chargeSpeed = forceEffect ? 2f : 0.85f;
+            float chargeSpeed = forceEffect ? 2f : 1f;
             float decaySpeed = chargeSpeed / 2.5f;
             if (player.HasEffect<TimberEffect>())
                 decaySpeed /= 3;
@@ -97,8 +97,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
             if (!hasIncreased && modPlayer.EbonwoodCharge > 0)
                 modPlayer.EbonwoodCharge -= decaySpeed;
 
-            float endMult = forceEffect ? 1f : (4f / 5);
-            player.endurance += 0.01f * endMult * modPlayer.EbonwoodCharge / 50;
+            player.endurance += 0.01f * modPlayer.EbonwoodCharge / 50;
 
             
             CooldownBarManager.Activate("EbonwoodEnchantCharge", ModContent.Request<Texture2D>("FargowiltasSouls/Content/Items/Accessories/Enchantments/EbonwoodEnchant").Value, EbonwoodEnchant.NameColor,
