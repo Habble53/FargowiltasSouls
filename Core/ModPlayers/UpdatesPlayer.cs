@@ -494,6 +494,9 @@ namespace FargowiltasSouls.Core.ModPlayers
             if (Anticoagulation)
                 DamageOverTime(4, true);
 
+            if (BleedingOut)
+                DamageOverTime(80, true);
+
             if (Player.onFire && Player.HasEffect<AshWoodEffect>())
             {
                 Player.lifeRegen += 8;

@@ -44,7 +44,7 @@ namespace FargowiltasSouls.Content.Projectiles.Souls
 
                         if (Projectile.Colliding(Projectile.Hitbox, Main.player[p].Hitbox))
                         {
-                            player.FargoSouls().HealPlayer(20);
+                            player.FargoSouls().HealPlayer(12);
                             Projectile.Kill();
                             FargoGlobalItem.OnRetrievePickup(player);
                             return;

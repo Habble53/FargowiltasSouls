@@ -431,6 +431,7 @@ namespace FargowiltasSouls.Core.ModPlayers
             Bloodthirsty = false;
             DisruptedFocus = false;
             BaronsBurden = false;
+            BleedingOut = false;
 
             Smite = false;
             Anticoagulation = false;

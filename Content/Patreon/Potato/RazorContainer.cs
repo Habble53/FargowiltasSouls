@@ -30,7 +30,7 @@ namespace FargowiltasSouls.Content.Patreon.Potato
             //spawn a blade if none exist
             if (player.ownedProjectileCounts[ModContent.ProjectileType<RazorBlade>()] < 1)
             {
-                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, new Vector2(Main.rand.Next(-2, 2), -2), ModContent.ProjectileType<RazorBlade>(), (int)(10 * player.ActualClassDamage(DamageClass.Melee)), 2f, player.whoAmI);
+                Projectile.NewProjectile(player.GetSource_Accessory(Item), player.Center, new Vector2(Main.rand.Next(-2, 2), -2), ModContent.ProjectileType<RazorBlade>(), (int)(8 * player.ActualClassDamage(DamageClass.Melee)), 2f, player.whoAmI);
             }
         }
 

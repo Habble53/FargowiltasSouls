@@ -131,11 +131,6 @@ namespace FargowiltasSouls.Core.ModPlayers
                     JungleStorming(); 
                 }
 
-                if (Player.ZoneCrimson)
-                {
-                    FargoSoulsUtil.AddDebuffFixedDuration(Player, BuffID.Bleeding, 2);
-                }
-
                 if (Player.ZoneCorrupt)
                 {
                     FargoSoulsUtil.AddDebuffFixedDuration(Player, BuffID.Darkness, 2);

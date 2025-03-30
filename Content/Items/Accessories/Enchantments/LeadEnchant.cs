@@ -73,7 +73,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
         public override int ToggleItemType => ModContent.ItemType<LeadEnchant>();
         public override void OnHitNPCEither(Player player, NPC target, NPC.HitInfo hitInfo, DamageClass damageClass, int baseDamage, Projectile projectile, Item item)
         {
-            target.AddBuff(ModContent.BuffType<LeadPoisonBuff>(), 30);
+            target.AddBuff(ModContent.BuffType<LeadPoisonBuff>(), 90);
         }
     }
 }

@@ -3,6 +3,7 @@ using FargowiltasSouls.Content.Buffs.Masomode;
 using FargowiltasSouls.Content.Buffs.Souls;
 using FargowiltasSouls.Content.Items.Accessories.Masomode;
 using FargowiltasSouls.Content.Items.Placables;
+using FargowiltasSouls.Content.Projectiles.Masomode;
 using FargowiltasSouls.Core.AccessoryEffectSystem;
 using FargowiltasSouls.Core.ItemDropRules.Conditions;
 using FargowiltasSouls.Core.Systems;
@@ -869,6 +870,15 @@ namespace FargowiltasSouls.Core.Globals
 
             if (npc.type == NPCID.Painter && WorldSavingSystem.DownedMutant && NPC.AnyNPCs(ModContent.NPCType<MutantBoss>()))
                 Item.NewItem(npc.GetSource_Loot(), npc.Hitbox, ModContent.ItemType<ScremPainting>());
+
+            int closestP = Player.FindClosest(npc.Center, 1, 1);
+            if (closestP >= 0 && Main.player[closestP].ZoneCrimson)
+            {
+                for (int i = 0; i < Main.rand.Next(1, 4); i++)
+                {
+                    Projectile.NewProjectileDirect(npc.GetSource_Death(), npc.Center, new Vector2(0, Main.rand.NextFloat(-10, -2)).RotatedByRandom(MathHelper.ToRadians(20)), ModContent.ProjectileType<BloodDroplet>(), 0, 0);
+                }
+            }
         }
         public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
         {

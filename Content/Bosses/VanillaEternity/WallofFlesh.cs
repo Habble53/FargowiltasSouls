@@ -79,7 +79,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         {
             base.SetDefaults(npc);
 
-            npc.lifeMax = (int)Math.Round(npc.lifeMax * 2f);
+            npc.lifeMax = (int)Math.Round(npc.lifeMax * 1.2f);
             if (Main.masterMode) //master mode is already long enough
                 npc.lifeMax = (int)Math.Round(npc.lifeMax * 0.9f);
             npc.defense = 0;

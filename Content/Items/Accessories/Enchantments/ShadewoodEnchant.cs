@@ -74,7 +74,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                     if (player.Distance(npcComparePoint) < dist && (forceEffect || Collision.CanHitLine(player.Center, 0, 0, npcComparePoint, 0, 0)))
                     {
                         //if (!player.HasEffect<TimberEffect>())
-                        npc.AddBuff(ModContent.BuffType<SuperBleedBuff>(), 120);
+                        npc.AddBuff(ModContent.BuffType<SuperBleedBuff>(), 60);
                     }
                         
                 }
@@ -110,7 +110,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
 
             if (target.HasBuff(ModContent.BuffType<SuperBleedBuff>()) && modPlayer.ShadewoodCD == 0 && (projectile == null || projectile.type != ModContent.ProjectileType<SuperBlood>()) && player.whoAmI == Main.myPlayer)
             {
-                modPlayer.ShadewoodCD = 30;
+                modPlayer.ShadewoodCD = 40;
                 for (int i = 0; i < 2; i++)
                 {
                     Projectile.NewProjectile(player.GetSource_Misc(""), target.Center.X, target.Center.Y - 20, 0f + Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5), ModContent.ProjectileType<SuperBlood>(), (int)(dmg * player.ActualClassDamage(DamageClass.Melee)), 0f, Main.myPlayer);

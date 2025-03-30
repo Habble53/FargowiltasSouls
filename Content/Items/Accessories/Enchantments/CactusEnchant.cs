@@ -89,7 +89,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
 
         private static void CactusSpray(Player player, Vector2 position)
         {
-            int dmg = 20;
+            int dmg = 16;
             int numNeedles = 8;
             FargoSoulsPlayer modPlayer = player.FargoSouls();
             if (modPlayer.ForceEffect<CactusEnchant>())

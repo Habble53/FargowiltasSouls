@@ -504,7 +504,7 @@ namespace FargowiltasSouls.Content.Items
                 if (modPlayer.BeeCD == 0)
                 {
                     int force = lifeForce ? 1 : 0;
-                    int damage = player.ForceEffect<BeeEffect>() ? 88 : 22; //22
+                    int damage = player.ForceEffect<BeeEffect>() ? 88 : 10;
                     if (lifeForce)
                         damage = 222;
                     Projectile.NewProjectile(player.GetSource_Accessory(player.EffectItem<BeeEffect>()), player.Center, Vector2.Zero, ModContent.ProjectileType<BeeFlower>(), damage, 0.5f, player.whoAmI, ai2: force);

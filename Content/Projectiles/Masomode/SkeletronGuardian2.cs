@@ -82,7 +82,7 @@ namespace FargowiltasSouls.Content.Projectiles.Masomode
 
         public override void OnHitPlayer(Player target, Player.HurtInfo info)
         {
-            target.AddBuff(ModContent.BuffType<DefenselessBuff>(), 300);
+            //target.AddBuff(ModContent.BuffType<DefenselessBuff>(), 300);
             target.AddBuff(ModContent.BuffType<LethargicBuff>(), 300);
         }
 

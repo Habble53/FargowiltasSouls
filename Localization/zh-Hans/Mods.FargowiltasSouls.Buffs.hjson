@@ -817,3 +817,8 @@ TouhouHoardBuff: {
 	DisplayName: 幻想天团
 	Description: 幻想之物会为你而战
 }
+
+BleedingOut: {
+	// DisplayName: Bleeding Out
+	// Description: Mods.FargowiltasSouls.Buffs.BleedingOut.Description
+}

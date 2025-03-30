@@ -105,8 +105,8 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 if (!modPlayer.TerrariaSoul && heldItem != null && heldItem.IsWeaponWithDamageClass())
                 {
                     fireballDamage *= player.ActualClassDamage(DamageClass.Magic);
-                    if (fireballDamage > 30f * softcapMult)
-                    fireballDamage = (float)Math.Round(((60f * softcapMult) + fireballDamage) / 3f);
+                    if (fireballDamage > 24f * softcapMult)
+                    fireballDamage = (float)Math.Round(((48f * softcapMult) + fireballDamage) / 3f);
                 }
                 Vector2 vel = Vector2.Normalize(Main.MouseWorld - player.Center) * 17f;
                 vel = vel.RotatedByRandom(Math.PI / 10);

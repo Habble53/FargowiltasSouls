@@ -133,7 +133,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 if (modPlayer.IcicleCount >= 1 && player.controlUseItem && player.HeldItem.IsWeapon() && player.HeldItem.createTile == -1 && player.HeldItem.createWall == -1 && player.HeldItem.ammo == AmmoID.None)
                 {
 
-                    int dmg = modPlayer.ForceEffect<FrostEnchant>() ? 100 : (player.HasEffect<FrostEffect>() ? 50 : 30);
+                    int dmg = modPlayer.ForceEffect<FrostEnchant>() ? 100 : (player.HasEffect<FrostEffect>() ? 50 : 26);
 
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {

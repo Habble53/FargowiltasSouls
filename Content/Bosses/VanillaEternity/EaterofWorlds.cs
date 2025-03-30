@@ -97,8 +97,8 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         {
             if (npc.lifeRegen >= 0)
                 return;
-            npc.lifeRegen /= 3;
-            damage /= 3;
+            npc.lifeRegen /= 2;
+            damage /= 2;
             if (UseMassDefense)
             {
                 damage /= 10;
@@ -122,14 +122,11 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 modifiers.FinalDamage /= projectile.numHits + 1;
 
             if (projectile.FargoSouls().IsAHeldProj)
-                modifiers.FinalDamage *= 0.6f;
+                modifiers.FinalDamage *= 0.8f;
         }
 
         public override void SafeOnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
         {
-            if (!FargoSoulsUtil.IsSummonDamage(projectile) && projectile.damage > 5 && !projectile.FargoSouls().IsAHeldProj)
-                projectile.damage = (int)Math.Min(projectile.damage - 1, projectile.damage * 0.8);
-
             base.SafeOnHitByProjectile(npc, projectile, hit, damageDone);
         }
 

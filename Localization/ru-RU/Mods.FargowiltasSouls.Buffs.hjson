@@ -817,3 +817,8 @@ TouhouHoardBuff: {
 	DisplayName: Мистическая орда
 	Description: Мифические существа сражаются за вас
 }
+
+BleedingOut: {
+	// DisplayName: Bleeding Out
+	// Description: Mods.FargowiltasSouls.Buffs.BleedingOut.Description
+}
