@@ -421,6 +421,7 @@ namespace FargowiltasSouls.Core.ModPlayers
             ConcentratedRainbowMatter = false;
 
             Ambrosia = false;
+            SpecialDash = false;
 
             //debuffs
             Hexed = false;
@@ -1420,6 +1421,16 @@ namespace FargowiltasSouls.Core.ModPlayers
                     //{
                     layer.Hide();
                     //}
+                }
+            }
+            else if (SpecialDash)
+            {
+                foreach (var layer in PlayerDrawLayerLoader.Layers)
+                {
+                    if (layer == PlayerDrawLayers.MountBack || layer == PlayerDrawLayers.MountFront)
+                    {
+                        layer.Hide();
+                    }
                 }
             }
 
