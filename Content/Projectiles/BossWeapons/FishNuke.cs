@@ -121,7 +121,7 @@ namespace FargowiltasSouls.Content.Projectiles.BossWeapons
             
             if (Projectile.owner == Main.myPlayer && Projectile.width < 400 && Projectile.height < 400)
             {
-                SoundEngine.PlaySound(FargosSoundRegistry.NukeFishronExplosion, Projectile.Center);
+                SoundEngine.PlaySound(FargosSoundRegistry.NukeFishronExplosion with { Volume = 0.6f, MaxInstances = 2}, Projectile.Center);
                 Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<FishNukeExplosion>(), Projectile.damage, Projectile.knockBack * 2f, Projectile.owner, 0, 0, Main.rand.Next(0, 365));
                 Projectile.timeLeft = 20;
                 Projectile.hide = true;
