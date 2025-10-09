@@ -1,29 +1,14 @@
 NEW UPDATE - V {ModVersion}
-- Resprited Heart of the Master
-- Resprited Verdant Doomsayer Mask
-- Resprited Devious Aestheticus
-- Readded social links for Fargo's Mods on main menu; disabled during world generation
-
-- Devious Aestheticus:
-- - Increased drop rate from 5% to 10%
-- - Restored chance to duplicate itself on hit, at a significantly reduced amount
-- - Increased use time from 10 to 16
-- - Changed item and projectile sounds
-- - Fixed item listing a misleading base damage
-- - Increased item rarity from Green to Red
-- - Fixed projectiles counting as minion shots
-
-- Rewrote Soul of the Master item description to be accurate and fix item tooltip expanding beyond the game screen
-- Fixed fancy sword swings detecting for Eternity Mode instead of weapon rework toggle
-- Fixed sheeting errors with boss masks
-- Fixed Life Mask making the player bald
-- Fixed all gills effects not working on For The Worthy worlds
-- Fixed Cosmic Core tooltip listing incorrect chance for supercrits
-- Fixed Eternal Flame failing to draw when equipped in vanity slots
-- Fixed Eternal Flame skipping a frame when animating
-- Fixed Eternal Flame sprite jittering while moving
-- Fixed Top Hat Squirrel having a max stack size of 1
-- Fixed Earth Force bar displaying while Mythril is toggled off
-- Fixed Omniscience Staff listing incorrect minion slot requirement
-- Fixed Coin Gun nerf not being applied to items that scale off weapon damage
-- Fixed issue where Destroyer could despawn projectiles because of pierce resistance
+- Spirit Champion: Cannot grab for 2.5 seconds after grabbing any player
+- Fixed menu links sometimes showing outside of the menu under certain conditions
+- Fixed Wall of Flesh ichor projectiles moving much slower than intended
+- Fixed Champion of Timber not dropping its mask on Eternity Mode
+- Special Dashes no longer disable mounts while used
+- Bee Dash now uses Royal Subject sprite instead of scaled down Queen Bee sprite, slightly improved visuals
+- Fixed Betsy's Heart granting the Bee Dash effect
+- Fixed issue with Special Dash types overriding eachother
+- Fixed Betsys Heart visual animating way faster than intended
+- Fixed Force of Timber acorns spawning while boreal snowballs are disabled
+- Fixed Fish Nuke not exploding when hitting tiles
+- Fixed Duke Fishron occasionally not spawning bubbles when intended in For the Worthy
+- Reduced Nuke Fishron and Mythril Enchant volume
