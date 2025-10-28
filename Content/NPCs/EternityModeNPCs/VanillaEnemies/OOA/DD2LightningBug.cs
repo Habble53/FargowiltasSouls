@@ -54,7 +54,7 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
             switch (State)
             {
                 case 0: // Looking for target
-                    Target = FindClosestDD2Sentry(npc.Center);
+                    Target = EModeDD2Event.FindClosestDD2Sentry(npc.Center);
                     if (Target != -1)
                     {
                         State = 1;
@@ -110,27 +110,6 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
             }
 
             return false;
-        }
-
-        public int FindClosestDD2Sentry(Vector2 position)
-        {
-            int n = -1;
-            float dist = -1;
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (!p.active || !ProjectileID.Sets.IsADD2Turret[p.type] || p.Eternity().Jammed)
-                    continue;
-
-                float projDist = (p.Center - position).Length();
-                if (dist == -1 || projDist < dist)
-                {
-                    dist = projDist;
-                    n = i;
-                }
-            }
-
-            return n;
         }
 
         public override void AI(NPC npc)

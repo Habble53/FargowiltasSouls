@@ -3868,3 +3868,12 @@ SoulLantern: {
 		Сейчас действует на врага: {0}
 		'''
 }
+
+DraconicCrystal: {
+	// DisplayName: Draconic Crystal
+	/* Tooltip:
+		'''
+		Place in the Eternia Crystal Stand to summon Etheria's portals
+		The event will instantly begin on the strongest tier at Wave 7
+		''' */
+}

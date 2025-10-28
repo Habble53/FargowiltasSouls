@@ -20,6 +20,8 @@ using FargowiltasSouls.Content.Projectiles.Weapons;
 using FargowiltasSouls.Core.Globals;
 using FargowiltasSouls.Core.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +29,7 @@ using System.Reflection.Metadata;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.WorldBuilding;
@@ -1379,6 +1382,7 @@ namespace FargowiltasSouls.Content.Projectiles
                     break;
 
                 case ProjectileID.DD2BetsyFireball: //when spawned, also spawn a phoenix
+                    break;
                     if (!firstTickAICheckDone && NonSwarmFight(projectile, NPCID.DD2Betsy))
                     {
                         bool phase2 = sourceNPC.GetGlobalNPC<Betsy>().InPhase2;
@@ -1397,6 +1401,7 @@ namespace FargowiltasSouls.Content.Projectiles
                     break;
 
                 case ProjectileID.DD2BetsyFlameBreath:
+                    break;
                     if (NonSwarmFight(projectile, NPCID.DD2Betsy))
                     {
                         bool phase2 = sourceNPC.GetGlobalNPC<Betsy>().InPhase2;
