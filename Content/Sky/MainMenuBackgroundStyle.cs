@@ -171,7 +171,7 @@ namespace FargowiltasSouls.Content.Sky
             float[] yOffset = [0f, 80f, 240f];
             float[] colorLerps = [0.2f, 0.5f, 0.9f];
 
-            float yLerp = LumUtils.InverseLerp(0, (float)Main.worldSurface * 16, screenCenter.Y);
+            float yLerp = 0.7f; // LumUtils.InverseLerp(0, (float)Main.worldSurface * 16, screenCenter.Y);
 
             var bg = ModContent.Request<Texture2D>($"FargowiltasSouls/Assets/Textures/Misc/MutantBackground").Value;
 
