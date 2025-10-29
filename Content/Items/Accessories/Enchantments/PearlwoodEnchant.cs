@@ -153,6 +153,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
     {
         public override Header ToggleHeader => Header.GetHeader<TimberHeader>();
         public override int ToggleItemType => ModContent.ItemType<PearlwoodEnchant>();
+        public override bool ExtraAttackEffect => true;
     }
     public class PearlwoodRainbowEffect : AccessoryEffect
     {
