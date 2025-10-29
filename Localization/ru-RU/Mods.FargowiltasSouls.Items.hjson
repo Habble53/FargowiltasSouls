@@ -834,6 +834,7 @@ LifeForce: {
 		[i:FargowiltasSouls/BeeEnchant] Эффекты рюкзака-улья
 		«Живое существо, неподвластное вашей воле — это редкость»
 		'''
+	VanityTooltip: Пассивные кактусы не наносят урона
 }
 
 NatureForce: {
