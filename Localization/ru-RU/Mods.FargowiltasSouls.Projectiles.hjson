@@ -882,10 +882,10 @@ BloodTrail.DisplayName: Кровавый след
 MermanAnchor.DisplayName: Якорь тритона
 JavelinSpark.DisplayName: Искра
 TrojanSnowPile.DisplayName: Сугроб
-// BloodThornWarning.DisplayName: Blood Thorn Warning
-// EelChum.DisplayName: Eel Chum
-// EelChumBucket.DisplayName: Eel Chum Bucket
-// EelDrippler.DisplayName: Eel Drippler
+BloodThornWarning.DisplayName: Предупреждение
+EelChum.DisplayName: Наживка
+EelChumBucket.DisplayName: Ведро наживки
+EelDrippler.DisplayName: Стекатель
 // DD2CrystalAura.DisplayName: D D2 Crystal Aura
 // BetsyCurveFireball.DisplayName: Betsy Curve Fireball
 // BetsyCurveFireBreath.DisplayName: Betsy Curve Fire Breath
@@ -896,8 +896,4 @@ TrojanSnowPile.DisplayName: Сугроб
 // BetsyFusedSigil.DisplayName: Betsy Fused Sigil
 // BetsyFusedSigilProj.DisplayName: Betsy Fused Sigil Proj
 // DD2CrystalDeathray.DisplayName: D D2 Crystal Deathray
-BloodThornWarning.DisplayName: Предупреждение
-EelChum.DisplayName: Наживка
-EelChumBucket.DisplayName: Ведро наживки
-EelDrippler.DisplayName: Стекатель
 LacBeetleCloud.DisplayName: Хитиновое облако
