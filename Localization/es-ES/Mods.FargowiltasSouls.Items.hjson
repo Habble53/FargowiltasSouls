@@ -1391,7 +1391,7 @@ NecromanticBrew: {
 	/* Tooltip:
 		'''
 		Grants immunity to Lethargic
-		Increases speed when dashing by 30%
+		Increases speed when dashing by 20%
 		Summons 2 Skeletron arms to whack enemies
 		'The bone-growing solution of a defeated foe'
 		''' */

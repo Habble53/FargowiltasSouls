@@ -3162,14 +3162,14 @@ namespace FargowiltasSouls.Content.Bosses.MutantBoss
                 SoundEngine.PlaySound(SoundID.Item34, player.Center);
                 if (FargoSoulsUtil.HostCheck)
                 {
-                    int frame = Main.rand.Next(3);
+                    //int frame = Main.rand.Next(3);
 
                     void Slime(Vector2 pos, float off, Vector2 vel)
                     {
                         const int flip = 1;
                         Vector2 spawnPos = pos + off * Vector2.UnitY * flip;
                         float ai0 = FargoSoulsUtil.ProjectileExists(ritualProj, ModContent.ProjectileType<MutantRitual>()) == null ? 0f : NPC.Distance(Main.projectile[ritualProj].Center);
-                        Projectile.NewProjectile(NPC.GetSource_FromThis(), spawnPos, vel * flip, ModContent.ProjectileType<MutantSlimeSpike>(), FargoSoulsUtil.ScaledProjectileDamage(NPC.defDamage), 0f, Main.myPlayer, ai0, ai2: frame);
+                        Projectile.NewProjectile(NPC.GetSource_FromThis(), spawnPos, vel * flip, ModContent.ProjectileType<MutantSlimeSpike>(), FargoSoulsUtil.ScaledProjectileDamage(NPC.defDamage), 0f, Main.myPlayer, ai0, ai2: Main.rand.Next(3));
                     }
 
                     Vector2 basePos = NPC.Center;
