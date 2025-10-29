@@ -144,7 +144,7 @@ namespace FargowiltasSouls.Content.Sky
 
         private Color ColorToUse(ref float opacity)
         {
-            Color color = FargoSoulsUtil.AprilFools ? Color.OrangeRed : new(51, 255, 191);
+            Color color = FargoSoulsUtil.AprilFools ? Color.OrangeRed : new(40, 200, 150);
             opacity = intensity * 1f;
 
             if (specialColorLerp > 0 && specialColor != null)
@@ -222,7 +222,7 @@ namespace FargowiltasSouls.Content.Sky
                 Vector2 velocity = Vector2.UnitX * Main.rand.NextFloat(-16, 16);
                 float maxRot = MathHelper.PiOver2 * 0.05f;
                 float rayRot = Main.rand.NextFloat(-maxRot, maxRot);
-                int rayTime = 320;
+                int rayTime = 600;
                 float rayRotSpeed = Main.rand.NextFloat(0.25f * maxRot / rayTime, maxRot / rayTime);
                 rayRotSpeed /= 14f;
                 rayRotSpeed *= -rayRot.NonZeroSign();
@@ -244,8 +244,8 @@ namespace FargowiltasSouls.Content.Sky
                     removeRays.Add(ray);
                     continue;
                 }
-                float rayOpacity = opacity;
-                float fadeTime = 16;
+                float rayOpacity = opacity * shaderIntensity;
+                float fadeTime = 120;
                 if (ray.TimeLeft <= fadeTime)
                 {
                     rayOpacity *= ray.TimeLeft / fadeTime;
