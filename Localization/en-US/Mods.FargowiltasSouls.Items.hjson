@@ -109,7 +109,6 @@ CactusEnchant: {
 		Passive cactuses become harmless
 		'It's the quenchiest!'
 		'''
-	//VanityTooltip: Passive cactuses become harmless
 }
 
 ChlorophyteEnchant: {

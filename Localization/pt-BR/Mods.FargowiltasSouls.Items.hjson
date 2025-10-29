@@ -106,7 +106,6 @@ CactusEnchant: {
 		Grants immunity to ambient cactus damage in Eternity Mode (Works from inventory and vanity)
 		'Não tem nada igual, é!'
 		'''
-	// VanityTooltip: Passive cactuses become harmless
 }
 
 ChlorophyteEnchant: {
