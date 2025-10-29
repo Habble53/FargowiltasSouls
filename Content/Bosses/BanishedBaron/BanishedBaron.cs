@@ -503,7 +503,7 @@ namespace FargowiltasSouls.Content.Bosses.BanishedBaron
 
             if (Phase == 2)
             {
-                ThrusterLoop ??= LoopedSoundManager.CreateNew(FargosSoundRegistry.BaronThrusterLoop, () =>
+                ThrusterLoop ??= LoopedSoundManager.CreateNew(FargosSoundRegistry.BaronThrusterLoop with { PauseBehavior = PauseBehavior.StopWhenGamePaused }, () =>
                 {
                     return !NPC.active || State == (int)StateEnum.DeathAnimation;
                 });

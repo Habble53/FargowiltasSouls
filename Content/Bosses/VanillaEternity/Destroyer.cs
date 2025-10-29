@@ -554,7 +554,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 if (FargoSoulsUtil.HostCheck)
                 {
                     float angle = MathHelper.Pi * 0.7f;
-                    int p = Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, npc.velocity, ModContent.ProjectileType<DestroyerScanTelegraph>(), 0, 0f, Main.myPlayer, 0, angle, 1000);
+                    int p = Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, npc.velocity, ModContent.ProjectileType<DestroyerScanTelegraph>(), 0, 0f, Main.myPlayer, 500, angle, 0);
                     if (p != Main.maxProjectiles)
                         Main.projectile[p].timeLeft = telegraphTime;
                     //Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<GlowRingHollow>(), 0, 0f, Main.myPlayer, 9, npc.whoAmI);
@@ -1277,21 +1277,33 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             {
                 if (ShootLaser)
                 {
+                    Vector2 towardsPlayer = 6f * npc.SafeDirectionTo(Main.player[npc.target].Center);
+                    const int attackTime = 110;
+
                     if (AttackTimer == 0)
                     {
                         TargetOrbitRotation = Main.player[npc.target].SafeDirectionTo(npc.Center).ToRotation(); //when shooting laser, stop orbiting
                         
                         npc.netUpdate = true;
                         NetSync(npc);
-                    }
-                        
-                    const int attackTime = 110;
 
-                    Vector2 towardsPlayer = 6f * npc.SafeDirectionTo(Main.player[npc.target].Center);
+                        float angle = MathHelper.Pi * 0.3f;
+                        if (FargoSoulsUtil.HostCheck)
+                        {
+                            int p = Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, npc.velocity, ModContent.ProjectileType<DestroyerScanTelegraph>(), 0, 0f, Main.myPlayer, 100, angle, 0);
+                            if (p != Main.maxProjectiles)
+                                Main.projectile[p].timeLeft = attackTime;
+                        }
+                            
+                    }
+                       
+
+                    /*
                     int dustID = WorldSavingSystem.EternityMode && SoulConfig.Instance.BossRecolors ? DustID.GemSapphire : DustID.GemRuby;
                     float dustScale = 0.5f + 2.5f * AttackTimer / attackTime;
                     int d = Dust.NewDust(npc.position, npc.width, npc.height, dustID, 2f * towardsPlayer.X, 2f * towardsPlayer.Y, 0, default, dustScale);
                     Main.dust[d].noGravity = true;
+                    */
 
                     if (++AttackTimer > attackTime)
                     {
@@ -1400,6 +1412,9 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 opacity = 0;
             Rectangle rectangle = npc.frame;
             Vector2 origin2 = rectangle.Size() / 2f;
+
+
+
             Main.EntitySpriteDraw(TextureAssets.Npc[npc.type].Value, npc.Center - Main.screenPosition, new Rectangle?(rectangle), drawColor, npc.rotation, rectangle.Size() / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
 
             Main.EntitySpriteDraw(TextureAssets.Probe.Value, npc.Center - Main.screenPosition, new Rectangle?(rectangle), Color.White * opacity, npc.rotation, rectangle.Size() / 2, npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);

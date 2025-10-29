@@ -207,5 +207,5 @@ TimsInspectEffect: {
 
 DCUEffect: {
 	DisplayName: Буросодержащий модуль
-	Tooltip: "[i:2768] Призывает ездовой бур"
+	Tooltip: "[i:2768] Призывает улучшенный ездовой бур"
 }

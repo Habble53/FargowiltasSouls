@@ -1687,6 +1687,9 @@ namespace FargowiltasSouls.Content.Projectiles
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
             Point p = (projectile.Center + oldVelocity).ToTileCoordinates();
+            if (!(p.X - 10).IsWithinBounds(Main.maxTilesX - 20) || !(p.Y - 10).IsWithinBounds(Main.maxTilesY - 20))
+                return base.OnTileCollide(projectile, oldVelocity);
+
             Tile tile = Main.tile[p.X, p.Y];
 
             if (tile != null && tile.HasTile && tile.TileType == ModContent.TileType<BouncyMushroomTile>())

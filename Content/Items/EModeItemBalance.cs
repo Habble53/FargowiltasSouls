@@ -604,10 +604,10 @@ namespace FargowiltasSouls.Content.Items
                     balanceNumber = 1.2f;
                     return EModeChange.Buff;*/
 
-                case ItemID.Sunfury:
+                /*case ItemID.Sunfury:
                     balanceTextKeys = ["Damage"];
                     balanceNumber = 1.3f;
-                    return EModeChange.Buff;
+                    return EModeChange.Buff;*/
 
                 case ItemID.Trimarang:
                     balanceTextKeys = ["Trimarang"];
