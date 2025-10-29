@@ -26,8 +26,6 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
             Item.value = 20000;
         }
 
-        public override void UpdateInventory(Player player) => player.AddEffect<CactusPassiveEffect>(Item);
-        public override void UpdateVanity(Player player) => player.AddEffect<CactusPassiveEffect>(Item);
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.AddEffect<CactusEffect>(Item);
