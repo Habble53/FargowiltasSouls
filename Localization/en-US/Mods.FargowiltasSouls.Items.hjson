@@ -282,9 +282,10 @@ JungleEnchant: {
 	DisplayName: Jungle Enchantment
 	Tooltip:
 		'''
-		Grants a double spore jump
-		Allows the ability to dash slightly
-		Double tap a direction
+		Allows the holder to triple jump
+		Additional jumps release a cloud of spores at their feet
+		Increases jump height and fall resistance
+		[i:213] Increases alchemy plant collection
 		'The wrath of the jungle dwells within'
 		'''
 }
@@ -1039,7 +1040,7 @@ LithosphericCluster: {
 		'''
 	RuminateTooltip:
 		'''
-		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
+		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] knockback, Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
 		[i:FargowiltasSouls/CrystalSkull] Enemies are less likely to target you
 		[i:FargowiltasSouls/CrystalSkull] Summons a glooming lantern that charges shadow energy as you attack, stop attacking to release energy as a barrage of spirits
 		[i:FargowiltasSouls/WretchedPouch] Fires a concentrated beam of shadowflame if fully charged
@@ -1073,7 +1074,7 @@ LithosphericClusterInactive: {
 		'''
 	RuminateTooltip:
 		'''
-		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
+		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] knockback, Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
 		[i:FargowiltasSouls/CrystalSkull] Enemies are less likely to target you
 		[i:FargowiltasSouls/CrystalSkull] Summons a glooming lantern that charges shadow energy as you attack, stop attacking to release energy as a barrage of spirits
 		[i:FargowiltasSouls/WretchedPouch] Fires a concentrated beam of shadowflame if fully charged
@@ -1914,13 +1915,14 @@ WorldShaperSoul: {
 	DisplayName: World Shaper Soul
 	Tooltip:
 		'''
-		[i:FargowiltasSouls/MinerEnchant] Grants immunity to mining explosives
+		[i:FargowiltasSouls/WorldShaperSoul] [c/F3C727:Grants toggleable Builder Mode:]
+		    [c/F3C727:Allows instantaneous placement of tiles and walls and massively increased placement range]
+		    [c/F3C727:Tiles and walls will not be consumed at 500 stack or above]
 		[i:FargowiltasSouls/MinerEnchant] Greatly increased mining and [i:HandOfCreation] placement speed and range
-		[i:FargowiltasSouls/MinerEnchant] Provides light and reveals nearby enemies, traps and treasures
-		[i:3624] Automatically places actuators, [i:HandOfCreation] paints or coats placed objects
-		Grants toggleable Builder Mode:
-		    Tiles and walls will not be consumed at 500 stack or above
-		    Further increased placement speed and range
+		[i:FargowiltasSouls/MinerEnchant] Grants immunity to mining explosives, provides light and reveals nearby enemies, traps and treasures
+		[i:HandOfCreation] Increases pickup range for items, hold Up to reach higher
+		[i:3624] Automatically places actuators and [i:HandOfCreation] paints or coats placed objects
+		Allows sight of [i:4409] hidden blocks and [i:5452] your drone camera
 		'Living in a world of cardboard'
 		'''
 }

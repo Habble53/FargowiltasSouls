@@ -94,6 +94,7 @@ namespace FargowiltasSouls
             On_Projectile.StatusPlayer += StatusPlayer;
 
             On_ItemSlot.PickItemMovementAction += AllowSouls;
+            On_Main.HoverOverNPCs += HoverOverNPCs;
         }
 
         private void SetSpawnPlayer(On_NPC.orig_SpawnOnPlayer orig, int plr, int Type)
@@ -142,6 +143,7 @@ namespace FargowiltasSouls
             On_Projectile.StatusPlayer -= StatusPlayer;
 
             On_ItemSlot.PickItemMovementAction -= AllowSouls;
+            On_Main.HoverOverNPCs -= HoverOverNPCs;
         }
 
         private int AllowSouls(On_ItemSlot.orig_PickItemMovementAction orig, Item[] inv, int context, int slot, Item checkItem)
@@ -576,7 +578,7 @@ namespace FargowiltasSouls
         }
         public void RemoveAnnoyingNPCDebuffs(On_Player.orig_StatusFromNPC orig, Player self, NPC nPC)
         {
-            if (WorldSavingSystem.EternityMode && nPC.type is NPCID.SkeletronHead or NPCID.SkeletronHand)
+            if (WorldSavingSystem.EternityMode && nPC.type is NPCID.SkeletronHead or NPCID.SkeletronHand or NPCID.Creeper)
                 return;
             orig(self, nPC);
         }
@@ -658,6 +660,16 @@ namespace FargowiltasSouls
             if (self.type == ProjectileID.DeerclopsIceSpike && WorldSavingSystem.EternityMode && self.GetSourceNPC().type == NPCID.Deerclops)
                 return; // Remove annoying Frozen debuff from EMode+ Deer spikes
             orig(self, playerIndex);
+        }
+        private void HoverOverNPCs(On_Main.orig_HoverOverNPCs orig, Main self, Rectangle mouseRectangle)
+        {
+            orig(self, mouseRectangle);
+            if (WorldSavingSystem.EternityMode && WallofFleshEye.realLife > -1 && WallofFleshEye.realImmune != null)
+            {
+                Main.npc[WallofFleshEye.realLife].dontTakeDamage = (bool)WallofFleshEye.realImmune;
+                WallofFleshEye.realLife = -1;
+                WallofFleshEye.realImmune = null;
+            }
         }
     }
 }

@@ -1083,7 +1083,7 @@ LithosphericCluster: {
 		''' */
 	/* RuminateTooltip:
 		'''
-		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
+		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] knockback, Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
 		[i:FargowiltasSouls/CrystalSkull] Enemies are less likely to target you
 		[i:FargowiltasSouls/CrystalSkull] Summons a glooming lantern that charges shadow energy as you attack, stop attacking to release energy as a barrage of spirits
 		[i:FargowiltasSouls/WretchedPouch] Fires a concentrated beam of shadowflame if fully charged
@@ -1117,7 +1117,7 @@ LithosphericClusterInactive: {
 		''' */
 	/* RuminateTooltip:
 		'''
-		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
+		Grants immunity to [i:FargowiltasSouls/WyvernFeather] Clipped Wings, [i:FargowiltasSouls/CrystalSkull] Dazed, Webbed, [i:FargowiltasSouls/DreadShell] knockback, Anticoagulation, and [i:FargowiltasSouls/WretchedPouch] Shadowflame
 		[i:FargowiltasSouls/CrystalSkull] Enemies are less likely to target you
 		[i:FargowiltasSouls/CrystalSkull] Summons a glooming lantern that charges shadow energy as you attack, stop attacking to release energy as a barrage of spirits
 		[i:FargowiltasSouls/WretchedPouch] Fires a concentrated beam of shadowflame if fully charged
@@ -1454,7 +1454,7 @@ NecromanticBrew: {
 	Tooltip:
 		'''
 		Oferece imunidade a Letárgico
-		Aumenta a velocidade enquanto faz uma corrida em 30%
+		Aumenta a velocidade enquanto faz uma corrida em 20%
 		Enquanto faz uma corrida, você sofre 75% menos dano de contato e reflete 100% do dano de contato no atacante
 		Invoca 2 braços do Esqueletron para bater nos inimigos
 		'A solução de crescimento ósseo de um inimigo derrotado'

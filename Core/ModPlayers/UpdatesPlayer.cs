@@ -1,12 +1,16 @@
-﻿using Fargowiltas.Content.Items.Explosives;
+﻿using System;
+using System.Linq;
+using Fargowiltas.Content.Items.Explosives;
 using Fargowiltas.Content.NPCs;
 using FargowiltasSouls.Common.Graphics.Particles;
+using FargowiltasSouls.Content.Bosses.VanillaEternity;
 using FargowiltasSouls.Content.Buffs;
 using FargowiltasSouls.Content.Buffs.Eternity;
 using FargowiltasSouls.Content.Items.Accessories.Enchantments;
+using FargowiltasSouls.Content.Items.Accessories.Eternity;
 using FargowiltasSouls.Content.Items.Accessories.Expert;
 using FargowiltasSouls.Content.Items.Accessories.Forces;
-using FargowiltasSouls.Content.Items.Accessories.Eternity;
+using FargowiltasSouls.Content.Items.Accessories.Souls;
 using FargowiltasSouls.Content.Items.Armor.Styx;
 using FargowiltasSouls.Content.Items.Consumables;
 using FargowiltasSouls.Content.Items.Weapons.Challengers;
@@ -17,8 +21,6 @@ using FargowiltasSouls.Core.Globals;
 using FargowiltasSouls.Core.Systems;
 using Luminance.Core.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -26,7 +28,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
-using FargowiltasSouls.Content.Bosses.VanillaEternity;
 
 namespace FargowiltasSouls.Core.ModPlayers
 {
@@ -178,6 +179,11 @@ namespace FargowiltasSouls.Core.ModPlayers
             if (SquireEnchantItem != null && BaseMountType != -1)
             {
                 SquireEnchant.ResetMountStats(this);
+            }
+
+            if (!Player.HasEffect<DCUEffect>() || !Player.mount.Active || Player.mount.Type != MountID.Drill)
+            {
+                Mount.amountOfBeamsAtOnce = 2;
             }
 
             ConcentratedRainbowMatterTryAutoHeal();

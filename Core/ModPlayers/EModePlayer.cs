@@ -183,7 +183,7 @@ namespace FargowiltasSouls.Core.ModPlayers
             if (!WorldSavingSystem.EternityMode)
                 return;
 
-            if (Player.longInvince && !Player.immune)
+            if (Player.longInvince && !Player.immune) // TODO: Check for HasEmodeChange just in case
             {
                 if (CrossNecklaceTimer < 20)
                 {

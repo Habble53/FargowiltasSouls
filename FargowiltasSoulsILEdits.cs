@@ -51,7 +51,16 @@ namespace FargowiltasSouls
         }
         public static bool NotSafeFromCactusDamage(Player player)
         {
-            return !player.HasEffect<CactusPassiveEffect>();
+            return player.whoAmI.IsWithinBounds(Main.maxPlayers) && !player.HasEffect<CactusPassiveEffect>();
+        }
+        public static float DrillMountRangeMult(Player player)
+        {
+            float rangeMult = 1f;
+            if (player.whoAmI.IsWithinBounds(Main.maxPlayers) && player.whoAmI == Main.myPlayer && player.mount.Active && player.mount.Type == MountID.Drill && player.FargoSouls().WorldShaperSoul && player.HasEffect<Content.Items.Accessories.Souls.DCUEffect>())
+            {
+                rangeMult *= 10f; // example mult
+            }
+            return rangeMult;
         }
     }
     internal sealed class Player_Update_ILEdit : ILEditUtils
@@ -237,6 +246,60 @@ namespace FargowiltasSouls
             cursor.Emit(OpCodes.Ldarg_0); // Get Player instance
             cursor.EmitDelegate(NotSafeFromCactusDamage); // Check if the player has Cactus Passive Effect
             cursor.EmitAnd(); // Push the two bools together
+        }
+    }
+
+    internal sealed class Mount_DrillSmartCursor_Blocks_ILEdit : ILEditUtils
+    {
+        public override void OnModLoad() => IL_Mount.DrillSmartCursor_Blocks += Mount_DrillSmartCursor_Blocks_IL;
+        public static void Mount_DrillSmartCursor_Blocks_IL(ILContext context)
+        {
+            ILCursor cursor = new(context);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(224f))) // Go directly after the drill mount range cap check
+            {
+                FargowiltasSouls.Instance.Logger.Warn("Drill Mount range mod failure: i.MatchLdcR4(224f)");
+                MonoModHooks.DumpIL(ModContent.GetInstance<FargowiltasSouls>(), context);
+                return;
+            }
+            cursor.Emit(OpCodes.Ldarg_1); // Get player instance
+            cursor.EmitDelegate(DrillMountRangeMult); // Calc the mult
+            cursor.Emit(OpCodes.Mul); // Multiply
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(224f))) // Go directly after the drill mount range cap set and do it again
+            {
+                FargowiltasSouls.Instance.Logger.Warn("Drill Mount range mod failure: i.MatchLdcR4(224f)");
+                MonoModHooks.DumpIL(ModContent.GetInstance<FargowiltasSouls>(), context);
+                return;
+            }
+            cursor.Emit(OpCodes.Ldarg_1); // Get player instance
+            cursor.EmitDelegate(DrillMountRangeMult); // Calc the mult
+            cursor.Emit(OpCodes.Mul); // Multiply
+        }
+    }
+
+    internal sealed class Mount_DrillSmartCursor_Walls_ILEdit : ILEditUtils // This is nearly a copy paste of the above IL because they are practically mirrored in origin
+    {
+        public override void OnModLoad() => IL_Mount.DrillSmartCursor_Walls += Mount_DrillSmartCursor_Walls_IL;
+        public static void Mount_DrillSmartCursor_Walls_IL(ILContext context)
+        {
+            ILCursor cursor = new(context);
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(224f))) // Go directly after the drill mount range cap check
+            {
+                FargowiltasSouls.Instance.Logger.Warn("Drill Mount range mod failure: i.MatchLdcR4(224f)");
+                MonoModHooks.DumpIL(ModContent.GetInstance<FargowiltasSouls>(), context);
+                return;
+            }
+            cursor.Emit(OpCodes.Ldarg_1); // Get player instance
+            cursor.EmitDelegate(DrillMountRangeMult); // Calc the mult
+            cursor.Emit(OpCodes.Mul); // Multiply
+            if (!cursor.TryGotoNext(MoveType.After, i => i.MatchLdcR4(224f))) // Go directly after the drill mount range cap set and do it again
+            {
+                FargowiltasSouls.Instance.Logger.Warn("Drill Mount range mod failure: i.MatchLdcR4(224f)");
+                MonoModHooks.DumpIL(ModContent.GetInstance<FargowiltasSouls>(), context);
+                return;
+            }
+            cursor.Emit(OpCodes.Ldarg_1); // Get player instance
+            cursor.EmitDelegate(DrillMountRangeMult); // Calc the mult
+            cursor.Emit(OpCodes.Mul); // Multiply
         }
     }
 }

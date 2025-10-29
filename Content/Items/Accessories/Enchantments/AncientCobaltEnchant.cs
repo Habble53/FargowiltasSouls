@@ -92,14 +92,6 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
             {
                 bool upgrade = notAncient || player.ForceEffect<AncientCobaltEffect>();
 
-                int projType = ModContent.ProjectileType<CobaltExplosion>();
-                int damage = 35;
-                if (upgrade) 
-                    damage = 150;
-
-                if (notAncient && player.ForceEffect<AncientCobaltEffect>())
-                    damage = 300;
-
                 float scale = 1.5f;
                 int debuff = 1;
                 if (upgrade)
@@ -111,13 +103,6 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                 Projectile.NewProjectile(GetSource_EffectItem(player), player.Center, Vector2.Zero, ModContent.ProjectileType<CobaltExplosion>(), BaseDamage(player), 0, player.whoAmI, ai0: scale, ai1: debuff);
 
                 modPlayer.JustCobaltJumped = true;
-
-                /*
-                int time = upgrade ? 15 : 8;
-
-                if (modPlayer.CobaltImmuneTimer <= 0)
-                    modPlayer.CobaltImmuneTimer = time;
-                */
 
                 if (modPlayer.CobaltCooldownTimer <= 30)
                     modPlayer.CobaltCooldownTimer = 30;

@@ -264,7 +264,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                         npc.rotation += MathHelper.Pi / 6;
                     }
 
-                    if (!Main.dayTime && !WorldSavingSystem.MasochistModeReal)
+                    if (!Main.dayTime)
                     {
                         npc.position -= npc.velocity * 0.1f;
                         if (++DungeonGuardianStartup < 120)

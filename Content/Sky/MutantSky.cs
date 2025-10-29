@@ -168,8 +168,12 @@ namespace FargowiltasSouls.Content.Sky
         public List<LightRay> LightRays = [];
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            if (maxDepth < float.MaxValue || minDepth >= float.MaxValue)
+            if (maxDepth < 0 && minDepth >= 0)
                 return;
+            //if (maxDepth < float.MaxValue || minDepth >= float.MaxValue)
+            //return;
+
+            Vector2 screenCenter = Main.screenPosition + Vector2.UnitX * Main.screenWidth / 2 + Vector2.UnitY * Main.screenHeight / 2;
 
             float opacity = 0f;
             Color color = ColorToUse(ref opacity);
@@ -193,10 +197,10 @@ namespace FargowiltasSouls.Content.Sky
             ManagedShader blackShader = ShaderManager.GetShader("FargowiltasSouls.MutantNewBackgroundShader");
             blackShader.TrySetParameter("radius", Main.screenHeight * 1.6f);
             blackShader.TrySetParameter("time", Main.GlobalTimeWrappedHourly);
-            blackShader.TrySetParameter("anchorPoint", Main.LocalPlayer.Center - Vector2.UnitY * Main.screenHeight * 2);
+            blackShader.TrySetParameter("anchorPoint", screenCenter - Vector2.UnitY * Main.screenHeight * 2);
             blackShader.TrySetParameter("screenPosition", Main.screenPosition);
             blackShader.TrySetParameter("screenSize", Main.ScreenSize.ToVector2());
-            blackShader.TrySetParameter("maxOpacity", opacity);
+            blackShader.TrySetParameter("maxOpacity", opacity * shaderIntensity);
 
             Main.spriteBatch.GraphicsDevice.Textures[1] = noise.Value;
             //Main.spriteBatch.GraphicsDevice.Textures[2] = noise2.Value;
@@ -212,15 +216,15 @@ namespace FargowiltasSouls.Content.Sky
             Main.spriteBatch.UseBlendState(BlendState.Additive);
 
             int timer = (int)(Main.GlobalTimeWrappedHourly * 60f);
-            if (timer % 2 == 0)
+            if (timer % 4 == 0)
             {
                 Vector2 rayPos = Vector2.UnitX * Main.rand.NextFloat(-Main.screenWidth * 1.3f, Main.screenWidth * 1.3f);
                 Vector2 velocity = Vector2.UnitX * Main.rand.NextFloat(-16, 16);
-                float maxRot = MathHelper.PiOver2 * 0.2f;
+                float maxRot = MathHelper.PiOver2 * 0.05f;
                 float rayRot = Main.rand.NextFloat(-maxRot, maxRot);
-                int rayTime = 80;
+                int rayTime = 320;
                 float rayRotSpeed = Main.rand.NextFloat(0.25f * maxRot / rayTime, maxRot / rayTime);
-                rayRotSpeed /= 8f;
+                rayRotSpeed /= 14f;
                 rayRotSpeed *= -rayRot.NonZeroSign();
                 var ray = new LightRay(rayPos, velocity, rayRot, rayRotSpeed, rayTime);
                 LightRays.Add(ray);
@@ -232,7 +236,6 @@ namespace FargowiltasSouls.Content.Sky
             for (int i = 0; i <  LightRays.Count; i++)
             {
                 var ray = LightRays[i];
-                Vector2 diff = ray.Position - Main.LocalPlayer.Center;
                 ray.TimeLeft--;
                 ray.Rotation += ray.RotationSpeed;
                 LightRays[i] = ray; // because it's a struct, non-reference type
@@ -252,11 +255,11 @@ namespace FargowiltasSouls.Content.Sky
                 {
                     rayOpacity *= 1 - (ray.TimeLeft - fadeThreshold) / fadeTime;
                 }
-                Vector2 pos = new Vector2(Main.LocalPlayer.Center.X + ray.Position.X, Main.LocalPlayer.Center.Y + Main.screenHeight * 1.35f);
+                Vector2 pos = new(screenCenter.X + ray.Position.X, screenCenter.Y + 1362);
                 float sin = MathF.Sin(MathF.PI * ray.TimeLeft / (float)ray.MaxTimeLeft);
                 int amp = 60;
                 pos.Y += amp - sin * amp * 2;
-                spriteBatch.Draw(rayTexture.Value, pos - Main.screenPosition, rayTexture.Value.Bounds, Color.White * rayOpacity * 0.5f, ray.Rotation + MathHelper.Pi, lightRayOrigin, 0.75f, SpriteEffects.None, 0);
+                spriteBatch.Draw(rayTexture.Value, pos - Main.screenPosition, rayTexture.Value.Bounds, Color.White * rayOpacity * 0.4f, ray.Rotation + MathHelper.Pi, lightRayOrigin, 0.59f, SpriteEffects.None, 0);
             }
 
             foreach (var ray in removeRays)
@@ -265,9 +268,42 @@ namespace FargowiltasSouls.Content.Sky
             spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
+
             //Main.spriteBatch.ResetToDefault();
 
             DoTvBands(spriteBatch, opacity);
+
+
+
+            float[] scalers = [0.1f, 0.15f, 0.2f];
+            float[] yOffset = [0f, 80f, 240f];
+            float[] colorLerps = [0.2f, 0.5f, 0.9f];
+
+            float yLerp = LumUtils.InverseLerp(0, (float)Main.worldSurface * 16, screenCenter.Y);
+
+            var bg = ModContent.Request<Texture2D>($"FargowiltasSouls/Assets/Textures/Misc/MutantBackground").Value;
+
+            for (int i = 0; i < 3; i++)
+            {
+
+                Color bgColor = color;
+                bgColor = Color.Lerp(bgColor, Color.Black, colorLerps[i]);
+
+                Rectangle frame = new Rectangle(0, i * bg.Height / 3, bg.Width, bg.Height / 3);
+
+                Vector2 pos1 = new(
+                    -screenCenter.X * scalers[i] % bg.Width,
+                    MathHelper.Lerp(Main.screenHeight / 2 + yOffset[i], Main.screenHeight * 0.85f + yOffset[i] / 2, 1 - yLerp)
+                    );
+                Vector2 pos2 = pos1;
+                pos2.X += bg.Width;
+                Vector2 pos3 = pos2;
+                pos3.X += bg.Width;
+
+                spriteBatch.Draw(bg, pos1, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                spriteBatch.Draw(bg, pos2, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                spriteBatch.Draw(bg, pos3, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            }
         }
 
         void DoTvBands(SpriteBatch spriteBatch, float opacity)

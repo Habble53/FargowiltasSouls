@@ -2,10 +2,12 @@
 using FargowiltasSouls.Content.Bosses.DeviBoss;
 using FargowiltasSouls.Content.Bosses.MutantBoss;
 using FargowiltasSouls.Content.Items.Accessories.Eternity;
+using FargowiltasSouls.Content.WorldGeneration;
 using FargowiltasSouls.Core.AccessoryEffectSystem;
 using FargowiltasSouls.Core.Globals;
 using FargowiltasSouls.Core.Systems;
 using Luminance.Core.ModCalls;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -419,6 +421,78 @@ namespace FargowiltasSouls
         {
             var proj = argsWithoutCommand[0] as Projectile;
             proj.FargoSouls().DeletionImmuneRank = (int)(argsWithoutCommand[1]);
+            return ModCallManager.DefaultObject;
+        }
+    }
+
+    internal sealed class SetCoffinArenaCenterCall : ModCall
+    {
+        public override IEnumerable<string> GetCallCommands()
+        {
+            yield return "SetCoffinArenaCenter";
+        }
+        public override IEnumerable<Type> GetInputTypes()
+        {
+            yield return typeof(Point);
+        }
+        protected override object SafeProcess(params object[] argsWithoutCommand)
+        {
+            CoffinArena.SetArenaPosition((Point)argsWithoutCommand[0]);
+
+            return ModCallManager.DefaultObject;
+        }
+    }
+
+    internal sealed class SetCoffinArenaHeightCall : ModCall
+    {
+        public override IEnumerable<string> GetCallCommands()
+        {
+            yield return "SetCoffinArenaHeight";
+        }
+        public override IEnumerable<Type> GetInputTypes()
+        {
+            yield return typeof(int);
+        }
+        protected override object SafeProcess(params object[] argsWithoutCommand)
+        {
+            CoffinArena.Height = (int)argsWithoutCommand[0];
+
+            return ModCallManager.DefaultObject;
+        }
+    }
+
+    internal sealed class SetCoffinArenaWidthCall : ModCall
+    {
+        public override IEnumerable<string> GetCallCommands()
+        {
+            yield return "SetCoffinArenaWidth";
+        }
+        public override IEnumerable<Type> GetInputTypes()
+        {
+            yield return typeof(int);
+        }
+        protected override object SafeProcess(params object[] argsWithoutCommand)
+        {
+            CoffinArena.Width = (int)argsWithoutCommand[0];
+
+            return ModCallManager.DefaultObject;
+        }
+    }
+
+    internal sealed class SpawnCoffinArenaCall : ModCall
+    {
+        public override IEnumerable<string> GetCallCommands()
+        {
+            yield return "SpawnCoffinArena";
+        }
+        public override IEnumerable<Type> GetInputTypes()
+        {
+            yield return typeof(Point);
+        }
+        protected override object SafeProcess(params object[] argsWithoutCommand)
+        {
+            CoffinArena.Place((Point)argsWithoutCommand[0]);
+
             return ModCallManager.DefaultObject;
         }
     }

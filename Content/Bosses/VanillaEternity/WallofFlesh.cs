@@ -49,7 +49,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
 
         public Vector2 AuraCenter = Vector2.Zero;
 
-        internal const float HealthMultiplier = 1.8f;
+        internal const float HealthMultiplier = 1.9f;
 
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
@@ -498,6 +498,10 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         public bool TelegraphingLasers;
         public int TelegraphTimer;
 
+        public static int realLife = -1;
+
+        public static bool? realImmune = null;
+
 
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
@@ -777,6 +781,20 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             }    
             */
             return true;
+        }
+
+        public override void ModifyHoverBoundingBox(NPC npc, ref Rectangle boundingBox)
+        {
+            if (npc.realLife > -1 && realLife == -1 && realImmune == null)
+            {
+                NPC mouth = Main.npc[npc.realLife];
+                if (mouth.active && mouth.type == NPCID.WallofFlesh && mouth.dontTakeDamage)
+                {
+                    realImmune = true;
+                    mouth.dontTakeDamage = false;
+                    realLife = npc.realLife;
+                }
+            }
         }
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

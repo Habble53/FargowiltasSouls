@@ -20,6 +20,7 @@ using FargowiltasSouls.Content.Projectiles.Accessories.PureHeart;
 using FargowiltasSouls.Content.Projectiles.Accessories.Souls;
 using FargowiltasSouls.Content.Projectiles.Weapons.BossWeapons;
 using FargowiltasSouls.Content.Projectiles.Weapons.SwarmDrops;
+using FargowiltasSouls.Content.Tiles;
 using FargowiltasSouls.Core.AccessoryEffectSystem;
 using FargowiltasSouls.Core.Globals;
 using FargowiltasSouls.Core.Systems;
@@ -1681,6 +1682,33 @@ namespace FargowiltasSouls.Content.Projectiles
                 Main.EntitySpriteDraw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), new Color(255, 255, 255), projectile.rotation, origin2, projectile.scale, effects, 0);
                 Main.EntitySpriteDraw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), new Color(255, 255, 255, 0), projectile.rotation, origin2, projectile.scale, effects, 0);
             }
+        }
+
+        public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
+        {
+            Point p = (projectile.Center + oldVelocity).ToTileCoordinates();
+            Tile tile = Main.tile[p.X, p.Y];
+
+            if (tile != null && tile.HasTile && tile.TileType == ModContent.TileType<BouncyMushroomTile>())
+            {
+                //bouncy
+                SoundEngine.PlaySound(SoundID.Item10, projectile.position);
+                //projectile.penetrate--;
+                if (projectile.velocity.X != oldVelocity.X)
+                {
+                    projectile.velocity.X = 0f - oldVelocity.X;
+                }
+                if (projectile.velocity.Y != oldVelocity.Y)
+                {
+                    projectile.velocity.Y = 0f - oldVelocity.Y;
+                }
+
+                return false;
+
+            }
+
+
+            return base.OnTileCollide(projectile, oldVelocity);
         }
     }
 }

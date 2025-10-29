@@ -21,7 +21,7 @@ namespace FargowiltasSouls.Content.Bosses.MutantBoss
             base.SetDefaults();
             Projectile.timeLeft = 180;
             Projectile.FargoSouls().TimeFreezeImmune = true;
-            CooldownSlot = 0;
+            CooldownSlot = ImmunityCooldownID.TileContactDamage;
         }
 
         private float Amplitude => Projectile.ai[0];

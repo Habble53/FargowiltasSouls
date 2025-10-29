@@ -905,6 +905,9 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
 
         public override bool CanHitPlayer(NPC npc, Player target, ref int CooldownSlot)
         {
+            if (!WorldSavingSystem.EternityMode)
+                return base.CanHitPlayer(npc, target, ref CooldownSlot);
+            CooldownSlot = ImmunityCooldownID.Bosses;
             return base.CanHitPlayer(npc, target, ref CooldownSlot) && npc.localAI[3] > 120;
         }
 
@@ -1045,7 +1048,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             if (!WorldSavingSystem.EternityMode)
                 return base.CanHitPlayer(npc, target, ref cooldownSlot);
 
-            if (SourceNPCType is NPCID.MoonLordCore or NPCID.MoonLordHead or NPCID.MoonLordHand)
+            if (SourceNPCType is NPCID.CultistBoss or NPCID.CultistBossClone or NPCID.MoonLordCore or NPCID.MoonLordHead or NPCID.MoonLordHand)
                 cooldownSlot = ImmunityCooldownID.Bosses;
 
             return base.CanHitPlayer(npc, target, ref cooldownSlot);

@@ -22,7 +22,7 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity
         {
             base.SetDefaults();
             Projectile.scale = 1.5f;
-            CooldownSlot = -1;
+            CooldownSlot = ImmunityCooldownID.General;
             Projectile.FargoSouls().DeletionImmuneRank = 1;
         }
 

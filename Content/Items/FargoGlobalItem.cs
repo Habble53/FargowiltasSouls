@@ -691,7 +691,7 @@ namespace FargowiltasSouls.Content.Items
                 List<int> allowed = [PrefixID.Legendary, PrefixID.Legendary2, PrefixID.Mythical, PrefixID.Unreal, PrefixID.Godly, PrefixID.Demonic, PrefixID.Ruthless];
                 if (item.accessory)
                     allowed.AddRange([PrefixID.Violent, PrefixID.Quick, PrefixID.Menacing, PrefixID.Warding, PrefixID.Lucky, PrefixID.Arcane]);
-                if (item.pick > 0 || item.axe > 0 || item.hammer > 0)
+                if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.type == ItemID.GravediggerShovel)
                     allowed.Add(PrefixID.Light);
                 allowed.Remove(item.prefix);
                 if (pre < 85 && !allowed.Contains(pre))

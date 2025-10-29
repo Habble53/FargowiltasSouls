@@ -17,7 +17,7 @@ namespace FargowiltasSouls.Content.Projectiles.Weapons.BossWeapons
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = 1;
-            CooldownSlot = -1;
+            CooldownSlot = ImmunityCooldownID.General;
         }
 
         public override void AI()
