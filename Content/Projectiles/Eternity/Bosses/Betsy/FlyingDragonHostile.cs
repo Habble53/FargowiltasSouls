@@ -30,13 +30,14 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
             Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.tileCollide = false;
+            Projectile.light = 1f;
         }
 
         public override void AI()
         {
             Projectile.localAI[0]++;
             Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            Projectile.velocity = Projectile.velocity + 0.1f * Projectile.velocity.SafeNormalize(Vector2.Zero);
+            Projectile.velocity *= 1.044f;
             Projectile.direction = (int)Projectile.HorizontalDirectionTo(Projectile.Center + Projectile.velocity);
 
             Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.RedTorch, Scale: 2f);

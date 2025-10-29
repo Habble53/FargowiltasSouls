@@ -22,6 +22,8 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
             Projectile.height = 82;
             Projectile.scale = 0.5f;
             Projectile.tileCollide = false;
+
+            Projectile.light = 1f;
         }
 
         public override void AI()

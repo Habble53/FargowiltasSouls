@@ -25,6 +25,9 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
             Projectile.hostile = true;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
+
+            Projectile.Opacity = 0f;
+            Projectile.light = 1f;
         }
 
         public override void AI()
@@ -35,6 +38,9 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
                 Projectile.Kill();
                 return;
             }
+
+            Projectile.scale = LumUtils.Saturate(MathHelper.SmoothStep(0f, 1f, Projectile.ai[1] / 60));
+            Projectile.Opacity = LumUtils.Saturate(MathHelper.Lerp(0f, 1f, Projectile.ai[1] / 60));
 
             Projectile.ai[1]++;
             Projectile.ai[2] = Projectile.ai[1] < 60 ? (Projectile.ai[1] / 6) % 4 : 4;

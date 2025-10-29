@@ -10,6 +10,7 @@ using FargowiltasSouls.Content.Projectiles;
 using FargowiltasSouls.Content.Projectiles.Deathrays;
 using FargowiltasSouls.Content.Projectiles.Eternity;
 using FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy;
+using FargowiltasSouls.Content.Projectiles.Eternity.Enemies.Vanilla.Hell;
 using FargowiltasSouls.Core.Globals;
 using FargowiltasSouls.Core.NPCMatching;
 using FargowiltasSouls.Core.Systems;
@@ -251,7 +252,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             if (npc.Distance(targetPos) > 20)
             {
                 npc.direction = (int)npc.HorizontalDirectionTo(targetPos);
-                Movement(npc, targetPos);
+                Movement(npc, targetPos, traction: 0.6f, maxSpeed: 50);
                 Timer = 1;
             }
             else
@@ -317,6 +318,10 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             Player target = Main.player[npc.target];
             Vector2 targetPos = target.Center - 1200 * npc.HorizontalDirectionTo(target.Center) * Vector2.UnitX - 600 * Vector2.UnitY;
             float distToTarget = npc.Distance(targetPos);
+
+            // done after 2 dashes; 1 in p2
+            int substates = InPhase2 ? 4 : 8;
+
             if (SubState % 4 == 0) // get to position
             {
                 npc.direction = npc.spriteDirection = (int)npc.HorizontalDirectionTo(target.Center);
@@ -346,18 +351,18 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             {
                 npc.velocity = npc.direction * 25 * Vector2.UnitX;
                 if (Timer == 1) {
-                    Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), npc.direction * npc.velocity / 2, ProjectileID.DD2BetsyFlameBreath, npc.damage / 3, 1f, ai1: npc.whoAmI);
+                    Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), npc.direction * npc.velocity / 2, ProjectileID.DD2BetsyFlameBreath, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 1f, ai1: npc.whoAmI);
                 }
 
                 if (Timer % 5 == 1)
                 {
                     if (FargoSoulsUtil.HostCheck)
                     {
-                        Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), new(npc.direction * 2f, 0f), ProjectileID.DD2BetsyFireball, npc.damage / 3, 1f);
+                        Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), new(npc.direction * 2f, 0f), ProjectileID.DD2BetsyFireball, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 1f);
                     }
                 }
 
-                if (Timer >= 60 && Math.Abs(npc.Center.X - target.Center.X) > 700)
+                if (Timer >= 60 && Math.Abs(npc.Center.X - target.Center.X) > 550)
                 {
                     Timer = 0;
                     SubState++;
@@ -366,7 +371,15 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             else if (SubState % 4 == 3)
             {
                 frameY = 0;
-                npc.velocity *= 0.98f;
+                if (SubState >= substates - 1)
+                {
+                    Movement(npc, target.Center + Vector2.UnitX * target.HorizontalDirectionTo(npc.Center) * 600 - Vector2.UnitY * 250);
+                    npc.direction = npc.spriteDirection = npc.velocity.X.NonZeroSign();
+                }
+                else
+                {
+                    npc.velocity *= 0.98f;
+                }
                 if (Timer > 20)
                 {
                     Timer = 0;
@@ -376,8 +389,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 }
             }
 
-            // done after 3 dashes
-            if (SubState >= 12)
+            if (SubState >= substates)
             {
                 ResetToIdle(npc);
             }
@@ -386,7 +398,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         private void DirectDashes(NPC npc)
         {
             Player target = Main.player[npc.target];
-            Vector2 targetPos = target.Center - 650 * npc.HorizontalDirectionTo(target.Center) * Vector2.UnitX - 70 * Vector2.UnitY;
+            Vector2 targetPos = target.Center - 750 * npc.HorizontalDirectionTo(target.Center) * Vector2.UnitX - 70 * Vector2.UnitY;
             float dist = npc.Distance(targetPos);
 
             if (SubState % 3 == 0) // get into position
@@ -419,11 +431,20 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 {
                     SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, npc.Center);
                     if (FargoSoulsUtil.HostCheck)
-                        Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), Vector2.Zero, ProjectileID.DD2BetsyFlameBreath, npc.damage / 4, 1f, ai1: npc.whoAmI);
+                        Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), Vector2.Zero, ProjectileID.DD2BetsyFlameBreath, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 1f), 1f, ai1: npc.whoAmI);
                 }
-                npc.velocity = 18 * npc.direction * Vector2.UnitX;
 
-                if (Timer == 20 || Timer == 40)
+                const float startTime = 0;
+                const float totalTime = 60;
+                float progress = (Timer - startTime);
+                float maxSpeed = 18f * 2 / (totalTime);
+                float spd = progress * maxSpeed;
+
+                npc.velocity = spd * npc.direction * Vector2.UnitX;
+
+                bool condition = Timer == 3 || Timer == 58 || (WorldSavingSystem.MasochistModeReal && Timer == 30);
+
+                if (condition)
                 {
                     SoundEngine.PlaySound(SoundID.DD2_BetsySummon, npc.Center);
                     if (FargoSoulsUtil.HostCheck)
@@ -431,7 +452,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                         for (int i = 0; i < 1; i++)
                         {
                             Projectile.NewProjectileDirect(npc.GetSource_FromThis(), npc.Center,
-                            Vector2.Zero, ModContent.ProjectileType<BetsySpawnPortal>(), npc.damage / 3, 1f, ai0: NPCID.DD2WyvernT3, ai1: npc.target);
+                            Vector2.Zero, ModContent.ProjectileType<BetsySpawnPortal>(), FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 1f, ai0: NPCID.DD2WyvernT3, ai1: npc.target);
                         }
                     }
                 }
@@ -444,7 +465,9 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 }
             }
 
-            if (SubState >= 9)
+            int end = InPhase2 ? 6 : 9;
+
+            if (SubState >= end)
             {
                 ResetToIdle(npc);
             }
@@ -494,7 +517,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                         new SparkParticle(npc.Center, 3 * Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi), Color.Black, 0.3f, 45).Spawn();
                     if (FargoSoulsUtil.HostCheck)
                         heldProj = Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, Vector2.Zero, ModContent.ProjectileType<BetsyWindVortex>(), 0, 0, ai0: npc.whoAmI);
-                    npc.rotation = 0;
+                    //npc.rotation = 0;
                     npc.direction = npc.spriteDirection = -1;
                     NetSync(npc);
                     if (heldProj == Main.maxProjectiles)
@@ -509,28 +532,36 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                     float radius = MathHelper.Clamp(maxRadius * Timer / 120f, 0, maxRadius);
                     float rot = npc.direction * MathHelper.TwoPi * Timer / 120f;
                     npc.Center = Main.projectile[heldProj].Center + radius * Vector2.UnitX.RotatedBy(rot);
-                    npc.rotation = rot + MathHelper.PiOver2;
+                    float rotLerp = LumUtils.Saturate(0.03f + 0.95f * Timer / 90f);
+                    
+                    npc.rotation = MathHelper.Lerp(npc.rotation, rot + MathHelper.PiOver2, rotLerp);
 
-                    if (radius == 700 && Timer % 45 == 0) // start shooting after vortex is finished
+                    int frequency = 25;
+
+                    if (radius == 700 && Timer % frequency == 0) // start shooting after vortex is finished
                     {
                         SoundEngine.PlaySound(SoundID.Item60, npc.Center);
                         SoundEngine.PlaySound(SoundID.DD2_SonicBoomBladeSlash with { Volume = 2f }, npc.Center);
                         if (FargoSoulsUtil.HostCheck)
                         {
-                            if (Timer % 90 == 0)
-                                Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, 8 * Vector2.UnitX.RotatedBy((target.Center - npc.Center).ToRotation()), ModContent.ProjectileType<FlyingDragonHostile>(), npc.damage / 5, 0f);
+                            if (Timer % (2 * frequency) == 0)
+                                Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, 4 * Vector2.UnitX.RotatedBy((target.Center - npc.Center).ToRotation()), ModContent.ProjectileType<FlyingDragonHostile>(), FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 0f);
                             else
                             {
                                 for (int i = -1; i < 2; i+=2)
                                 {
-                                    Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, 8 * Vector2.UnitX.RotatedBy((target.Center - npc.Center).ToRotation() + MathHelper.Pi * i / 10), 
-                                        ModContent.ProjectileType<FlyingDragonHostile>(), npc.damage / 5, 0f);
+                                    Projectile.NewProjectile(npc.GetSource_FromThis(), npc.Center, 4 * Vector2.UnitX.RotatedBy((target.Center - npc.Center).ToRotation() + MathHelper.Pi * i / 8.5f), 
+                                        ModContent.ProjectileType<FlyingDragonHostile>(), FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 0f);
                                 }
                             }
                         }
                     }
 
-                    if (Timer > 400 && Timer % 120 == 30) // fly up from top
+                    bool endCondition = Timer > 400 && Timer % 120 == 30;
+                    if (InPhase2)
+                        endCondition = Timer > 400 - 240 && Timer % 120 == 30;
+
+                    if (endCondition) // fly up from top
                     {
                         npc.velocity = -10 * Vector2.UnitY;
                         frameY = 0;
@@ -556,7 +587,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                     frameY = Math.Min(9, 4 + (int)Math.Floor((Timer - 30) / 4f));
                     if (Timer == 50 && FargoSoulsUtil.HostCheck)
                         Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), Vector2.Zero,
-                            ProjectileID.DD2BetsyFlameBreath, npc.damage / 2, 1f, ai1: npc.whoAmI);
+                            ProjectileID.DD2BetsyFlameBreath, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 1f), 1f, ai1: npc.whoAmI);
 
                     npc.velocity = 30 * Vector2.UnitX.RotatedBy(npc.rotation + MathHelper.Pi);
 
@@ -591,6 +622,8 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             else if (SubState == 4) // stun
             {
                 int recoverTime = WorldSavingSystem.MasochistModeReal ? 120 : 240;
+                if (InPhase2)
+                    recoverTime = (int)(recoverTime * 0.3f);
                 npc.velocity *= 0.9f;
                 npc.rotation = 0;
                 if (Timer < recoverTime - 60 && Timer % 60 == 1)
@@ -623,9 +656,9 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         {
             Player target = Main.player[npc.target];
             npc.direction = (int)npc.HorizontalDirectionTo(target.Center);
-            Vector2 targetPos = target.Center + new Vector2(-npc.direction * 400, -100);
+            Vector2 targetPos = target.Center + new Vector2(-npc.direction * 700, -100);
 
-            Movement(npc, targetPos, SubState == 0 ? 1.2f : 0.2f);
+            Movement(npc, targetPos, 0.7f);
 
             if (SubState == 0 && npc.Distance(targetPos) < 70)
             {
@@ -642,7 +675,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                         SoundEngine.PlaySound(SoundID.DD2_BetsyScream, npc.Center);
                     }
 
-                    int timeToStop = 400;
+                    int timeToStop = InPhase2 ? 250 : 400;
                     if (Timer < timeToStop - 50 && Timer % 25 == 0)
                     {
                         if (FargoSoulsUtil.HostCheck)
@@ -650,12 +683,32 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                             float r = 300;
                             float minR = 40;
                             Vector2 offset = new Vector2((Main.rand.NextBool() ? -1 : 1) * Main.rand.NextFloat(minR, r), (Main.rand.NextBool() ? -1 : 1) * Main.rand.NextFloat(minR, r));
-                            Projectile.NewProjectile(npc.GetSource_FromThis(), target.Center + offset, Vector2.Zero, ModContent.ProjectileType<BetsyFusedSigil>(), npc.damage / 5, 0f);
+                            Projectile.NewProjectile(npc.GetSource_FromThis(), target.Center + offset, Vector2.Zero, ModContent.ProjectileType<BetsyFusedSigil>(), FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 0f);
                         }
                     }
 
-                    if (Timer % 45 == 0)
+                    if (Timer > 45 && Timer % 45 == 0)
                     {
+
+                        npc.velocity.X = npc.direction * 3;
+                        npc.velocity.Y = 1.5f;
+                        if (FargoSoulsUtil.HostCheck)
+                        {
+                            for (int i = 0; i < 5; i++)
+                            {
+                                Vector2 vel = new Vector2(npc.direction, -1.7f) * 9;
+                                vel.X += Main.rand.NextFloat(-1, 1) * 1.4f;
+                                vel.Y -= Main.rand.NextFloat(0, 1) * 3.7f;
+                                vel.X += (i - 2) * 5;
+                                vel /= 1.6f;
+                                int p = Projectile.NewProjectile(npc.GetSource_FromAI(), breathPos(npc), vel, ProjectileID.DD2BetsyFireball, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 1f);
+                                if (p != Main.maxProjectiles)
+                                {
+                                    Main.projectile[p].extraUpdates = 1;
+                                }
+                            }
+                        }
+                        /*
                         if (FargoSoulsUtil.HostCheck)
                         {
                             for (int i = 0; i < 3; i++)
@@ -670,6 +723,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
 
                             }
                         }
+                        */
                     }
 
                     if (Timer > timeToStop)
@@ -724,7 +778,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 {
                     SoundEngine.PlaySound(SoundID.DD2_BetsyFlameBreath, npc.Center);
                     if (FargoSoulsUtil.HostCheck)
-                        Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), Vector2.Zero, ProjectileID.DD2BetsyFlameBreath, npc.damage / 2, 1f, ai1: npc.whoAmI);
+                        Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), Vector2.Zero, ProjectileID.DD2BetsyFlameBreath, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 1f), 1f, ai1: npc.whoAmI);
                 }
 
 
@@ -833,7 +887,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 EModeDD2Event.BetsyBlockSpawn = false;
             }
 
-            if (SubState % 3 == 0) // buff portal and nearby enemies
+            if (SubState % 5 == 0) // buff portal and nearby enemies
             {
                 NPC portal = FindClosestPortal(npc.Center);
                 if (portal == null)
@@ -889,7 +943,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                             }
                         }
 
-                        if (Timer > 300)
+                        if (Timer > 220)
                         {
                             frameY = 0;
                             SubState++;
@@ -899,7 +953,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
 
                 }
             }
-            else if (SubState % 3 == 1) // jam some sentries
+            else if (SubState % 5 == 1) // jam some sentries
             {
                 int whoAmI = EModeDD2Event.FindClosestDD2Sentry(npc.Center);
                 if (whoAmI < 0) // no sentries
@@ -954,7 +1008,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                                     proj.Eternity().Jammed = true;
                             }
 
-                            if (Timer > 300)
+                            if (Timer > 220)
                             {
                                 frameY = 0;
                                 SubState++;
@@ -970,7 +1024,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
 
                 }
             }
-            else if (SubState % 3 == 2) // light fireball rain
+            else // fireball rain
             {
                 targetPos = crystal.Center + new Vector2(-1200 * npc.direction, -600);
                 dist = npc.Distance(targetPos);
@@ -982,24 +1036,36 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
                 }
                 else
                 {
-                    frameY = Math.Min(9, 4 + (int)Math.Floor(Timer / 6f));
+                    float divisor = WorldSavingSystem.MasochistModeReal ? 9f : 6f;
+                    frameY = Math.Min(9, 4 + (int)Math.Floor(Timer / divisor));
 
                     if (frameY == 9)
                     {
                         npc.velocity = 30 * npc.direction * Vector2.UnitX;
 
-                        if (Timer % 10 == 0)
+                        int freq = WorldSavingSystem.MasochistModeReal ? 7 : 10;
+                        if (Timer % freq == 0)
                         {
                             if (FargoSoulsUtil.HostCheck)
                             {
-                                Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), new(npc.direction * 2f, 0f), ProjectileID.DD2BetsyFireball, npc.damage / 3, 1f);
+                                Projectile.NewProjectile(npc.GetSource_FromThis(), breathPos(npc), new(npc.direction * 2f, 0f), ProjectileID.DD2BetsyFireball, FargoSoulsUtil.ScaledProjectileDamage(npc.defDamage, 0.8f), 1f);
                             }
                         }
 
                         if (Timer > 120)
                         {
-                            SubState++;
-                            Timer = 0;
+                            if (SubState % 5 == 4)
+                            {
+                                SubState++;
+                                Timer = 0;
+                            }
+                            else
+                            {
+                                SubState++;
+                                Timer = 0;
+                                frameY = 0;
+                                npc.direction = (int)npc.HorizontalDirectionTo(crystal.Center);
+                            }
                         }
                     }
                     else
@@ -1064,11 +1130,11 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         #endregion
 
         #region Helper Methods
-        private void Movement(NPC npc, Vector2 target, float traction = 1.2f)
+        private void Movement(NPC npc, Vector2 target, float traction = 1.2f, float maxSpeed = 50)
         {
             float accel = traction;
             float decel = traction;
-            float resistance = npc.velocity.Length() * accel / 50f;
+            float resistance = npc.velocity.Length() * accel / maxSpeed;
             npc.velocity = FargoSoulsUtil.SmartAccel(npc.Center, target, npc.velocity, accel - resistance, decel + resistance);
         }
 

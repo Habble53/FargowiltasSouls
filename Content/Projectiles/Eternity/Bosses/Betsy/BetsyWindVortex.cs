@@ -1,4 +1,8 @@
-﻿using FargowiltasSouls.Assets.Textures;
+﻿using FargowiltasSouls.Assets.Sounds;
+using FargowiltasSouls.Assets.Textures;
+using FargowiltasSouls.Content.Bosses;
+using FargowiltasSouls.Content.Buffs.Eternity;
+using Luminance.Core.Sounds;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -13,9 +17,6 @@ using Terraria.GameContent;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using FargowiltasSouls.Content.Bosses;
-using FargowiltasSouls.Assets.Sounds;
-using Luminance.Core.Sounds;
 
 namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
 {
@@ -93,30 +94,36 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
                 //SoundEngine.PlaySound(SoundID.Item24, Projectile.Center);
                 //SoundEngine.PlaySound(SoundID.Item1 with { Pitch = -1f, Volume = 2f }, Projectile.Center);
             }
-
-            foreach (var p in Main.ActivePlayers)
+            void suck()
             {
-                float dist = p.Distance(Projectile.Center);
-                if (dist > 1000)
-                    continue;
-
-                float dragSpeed = dist / 80;
-                if (p.velocity.Y != 0 && !Collision.SolidCollision(p.position + Projectile.DirectionFrom(p.Center).RotatedBy(MathHelper.Pi / 2) * dragSpeed, p.width, p.height))
-                    p.position += Projectile.DirectionFrom(p.Center).RotatedBy(MathHelper.Pi / 2) * dragSpeed * 1.5f;
-                p.wingTime++; // inf flight
-                p.position += Projectile.DirectionFrom(p.Center) * dragSpeed / 2f;
-                if (dist > 350)
-                    p.position += Projectile.DirectionFrom(p.Center) * dragSpeed / 2f;
-
-                if (p.velocity.Length() > 15)
+                Player p = Main.LocalPlayer;
+                if (p.Alive())
                 {
-                    p.velocity.Normalize();
-                    p.velocity *= 14;
-                }
+                    float dist = p.Distance(Projectile.Center);
+                    if (dist > 1000)
+                        return;
 
-                //if (p.velocity.Y <= 0 && dist < 350)
-                //    p.position += Projectile.DirectionFrom(p.Center).RotatedBy(MathHelper.PiOver2) * 3 * dragSpeed;
+                    float dragSpeed = dist / 80;
+                    if (p.velocity.Y != 0 && !Collision.SolidCollision(p.position + Projectile.DirectionFrom(p.Center).RotatedBy(MathHelper.Pi / 2) * dragSpeed, p.width, p.height))
+                        p.position += Projectile.DirectionFrom(p.Center).RotatedBy(MathHelper.Pi / 2) * dragSpeed * 1.5f;
+                    p.wingTime++; // inf flight
+                    p.position += Projectile.DirectionFrom(p.Center) * dragSpeed / 2f;
+                    p.AddBuff(ModContent.BuffType<LowGroundEridanusBuff>(), 2);
+                    if (dist > 350)
+                        p.position += Projectile.DirectionFrom(p.Center) * dragSpeed / 2f;
+
+                    if (p.velocity.Length() > 15)
+                    {
+                        p.velocity.Normalize();
+                        p.velocity *= 14;
+                    }
+
+                    //if (p.velocity.Y <= 0 && dist < 350)
+                    //    p.position += Projectile.DirectionFrom(p.Center).RotatedBy(MathHelper.PiOver2) * 3 * dragSpeed;
+                }
             }
+            suck();
+
         }
 
         public override void OnKill(int timeLeft)

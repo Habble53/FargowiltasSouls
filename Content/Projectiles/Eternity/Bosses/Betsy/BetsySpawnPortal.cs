@@ -27,6 +27,9 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
             Projectile.width = 60;
             Projectile.height = 100;
             Projectile.hide = true;
+
+            Projectile.scale = 0f;
+            Projectile.light = 1f;
         }
 
         public override void AI()
@@ -46,14 +49,26 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
                 FargoSoulsUtil.DustRing(Projectile.Center, 20, DustID.Shadowflame, 5f);
             }
 
-            if (++Projectile.ai[2] % 60 == 0)
+            if (Projectile.ai[2] <= 60)
             {
-                switch(type)
+                Projectile.scale = MathHelper.SmoothStep(0f, 1f, Projectile.ai[2] / 60f);
+                Projectile.Opacity = LumUtils.Saturate(MathHelper.Lerp(0f, 1f, Projectile.ai[2] / 30f));
+            }
+            else
+            {
+                Projectile.scale = MathHelper.SmoothStep(1f, 0f, (Projectile.ai[2] - 60f) / 90f);
+                Projectile.Opacity = LumUtils.Saturate(MathHelper.Lerp(1f, 0f, (Projectile.ai[2] - 60f) / 90f));
+            }
+
+
+            if (++Projectile.ai[2] == 60f)
+            {
+                switch (type)
                 {
                     case NPCID.DD2WyvernT3:
                         SoundEngine.PlaySound(SoundID.DD2_WyvernScream, Projectile.Center);
                         if (FargoSoulsUtil.HostCheck)
-                            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BetsyWyvernClone>(), Projectile.damage, 1f, ai0: target);
+                            Projectile.NewProjectile(Projectile.InheritSource(Projectile), Projectile.Center + Vector2.UnitY * 30, Vector2.Zero, ModContent.ProjectileType<BetsyWyvernClone>(), Projectile.damage, 1f, ai0: target);
                         break;
                     default:
                         Projectile.Kill();
@@ -61,7 +76,7 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Bosses.Betsy
                 }
             }
 
-            if (Projectile.ai[2] >= 60)
+            if (Projectile.ai[2] >= 60 + 90)
             {
                 Projectile.Kill();
                 return;
