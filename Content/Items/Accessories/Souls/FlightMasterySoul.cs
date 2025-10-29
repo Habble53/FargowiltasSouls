@@ -5,6 +5,7 @@ using FargowiltasSouls.Core.ModPlayers;
 using FargowiltasSouls.Core.Toggler.Content;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +14,13 @@ namespace FargowiltasSouls.Content.Items.Accessories.Souls
     [AutoloadEquip(EquipType.Wings)]
     public class FlightMasterySoul : FlightMasteryWings
     {
+        public override void SetStaticDefaults()
+        {
+            base.SetStaticDefaults();
+            Main.RegisterItemAnimation(Item.type, new DrawAnimationVertical(5, 45));
+            ItemID.Sets.AnimatesAsSoul[Item.type] = true;
+        }
+
 
         public static readonly Color ItemColor = new(56, 134, 255);
         protected override Color? nameColor => ItemColor;
