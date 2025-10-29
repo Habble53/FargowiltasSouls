@@ -106,8 +106,10 @@ CactusEnchant: {
 		'''
 		While attacking you release a spray of needles in every direction
 		Enemies hit by needles will spray more needles on death
+		Passive cactuses become harmless (works from inventory or vanity slots)
 		'It's the quenchiest!'
 		'''
+	VanityTooltip: Passive cactuses become harmless
 }
 
 ChlorophyteEnchant: {
@@ -820,8 +822,10 @@ LifeForce: {
 		[i:FargowiltasSouls/BeetleEnchant] The Ambrosia buff provides +20% damage, +8% damage reduction, and 5 life regeneration
 		[i:FargowiltasSouls/TurtleEnchant] Hover in place with the wings to enter a shell and resist damage for one hit
 		[i:FargowiltasSouls/BeeEnchant] Effects of Hive Pack
+		[i:FargowiltasSouls/CactusEnchant] Passive cactuses become harmless (works from inventory or vanity slots)
 		'Rare is a living thing that dare disobey your will'
 		'''
+	VanityTooltip: Passive cactuses become harmless
 }
 
 NatureForce: {
