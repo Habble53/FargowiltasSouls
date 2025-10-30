@@ -386,7 +386,6 @@ namespace FargowiltasSouls.Content.Projectiles
 
                             projectile.usesIDStaticNPCImmunity = true;
                             projectile.idStaticNPCHitCooldown = 10;
-                            noInteractionWithNPCImmunityFrames = true;
                         }
                     }
                     break;
@@ -409,7 +408,6 @@ namespace FargowiltasSouls.Content.Projectiles
                             projectile.idStaticNPCHitCooldown = 10;
 
                             projectile.FargoSouls().CanSplit = false;
-                            projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
 
                             FargowiltasSouls.MutantMod.Call("LowRenderProj", projectile);
                         }
@@ -508,6 +506,11 @@ namespace FargowiltasSouls.Content.Projectiles
                 {
                     ApprenticeSupportProjectile = true; // tag it, meaning we now know that this projectile is from Apprentice Support effect
                 }
+            }
+            if (projectile is not null && projectile.owner.IsWithinBounds(Main.maxPlayers) && projectile.friendly && !projectile.appliesImmunityTimeOnSingleHits &&
+               (projectile.penetrate > 1 || projectile.penetrate == -1) && (projectile.usesLocalNPCImmunity || projectile.usesIDStaticNPCImmunity))
+            {
+                noInteractionWithNPCImmunityFrames = true;
             }
         }
 

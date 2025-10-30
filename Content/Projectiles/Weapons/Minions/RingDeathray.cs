@@ -35,7 +35,6 @@ namespace FargowiltasSouls.Content.Projectiles.Weapons.Minions
             Projectile.idStaticNPCHitCooldown = 10;
 
             Projectile.FargoSouls().CanSplit = false;
-            Projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
         }
 
         public override void AI()
