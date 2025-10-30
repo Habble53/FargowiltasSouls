@@ -23,6 +23,7 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
         {
             base.SetDefaults(npc);
             npc.knockBackResist = 0f;
+            npc.lifeMax /= 2;
         }
 
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
@@ -102,7 +103,7 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
                     return false;
             }
 
-            float speedCap = 3f;
+            float speedCap = 2.5f;
             if (npc.velocity.Length() > speedCap)
             {
                 npc.velocity.Normalize();

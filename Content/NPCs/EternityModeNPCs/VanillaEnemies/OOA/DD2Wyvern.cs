@@ -43,10 +43,11 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
             NPCID.Sets.TrailingMode[NPCID.DD2WyvernT3] = 1;
         }
 
-        public override void SetDefaults(NPC entity)
+        public override void SetDefaults(NPC npc)
         {
-            base.SetDefaults(entity);
-            entity.noTileCollide = false;
+            base.SetDefaults(npc);
+            npc.noTileCollide = false;
+            npc.lifeMax = (int)(npc.lifeMax * 0.66667f);
         }
 
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
