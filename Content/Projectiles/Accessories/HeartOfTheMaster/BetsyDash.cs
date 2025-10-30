@@ -37,7 +37,6 @@ namespace FargowiltasSouls.Content.Projectiles.Accessories.HeartOfTheMaster
 
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 30;
-            Projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
         }
 
         public override void AI()

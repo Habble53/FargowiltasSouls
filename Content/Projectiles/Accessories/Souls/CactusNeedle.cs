@@ -28,7 +28,6 @@ namespace FargowiltasSouls.Content.Projectiles.Accessories.Souls
             Projectile.penetrate = 2; //dies on hit
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
-            Projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
         }
 
         public override void AI()

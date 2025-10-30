@@ -232,7 +232,7 @@ namespace FargowiltasSouls.Content.Projectiles
 
             Projectile? sourceProj = null;
 
-            if (projectile is not null && projectile.owner.IsWithinBounds(Main.maxPlayers) && (projectile.friendly || FargoSoulsUtil.IsSummonDamage(projectile, false, false)))
+            if (projectile.owner.IsWithinBounds(Main.maxPlayers) && (projectile.friendly || FargoSoulsUtil.IsSummonDamage(projectile, false, false)))
             {
                 if (source is not null)
                 {
@@ -386,8 +386,6 @@ namespace FargowiltasSouls.Content.Projectiles
                             projectile.idStaticNPCHitCooldown = 3;
                         else
                             projectile.idStaticNPCHitCooldown = 5;
-
-                        projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
                     }
                     break;
 
