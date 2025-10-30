@@ -68,7 +68,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
             player.FargoSouls().HallowRepelTime = duration;
 
             SoundEngine.PlaySound(SoundID.Item72);
-            Particle p = new HallowEnchantBarrier(player.Center, Vector2.Zero, RepelRadius / 160f, duration + 20, player: player, baseOpacity: 0.5f);
+            Particle p = new HallowEnchantBarrier(player.Center, Vector2.Zero, RepelRadius / 160f, duration + 20, player: player, baseOpacity: 0.25f);
             p.Spawn();
 
         }
