@@ -568,7 +568,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
 						Point tile = projPos.ToTileCoordinates();
 						for (int safety = 0; safety < 100; safety++)
 						{
-							if (Main.tile[tile.X, tile.Y].HasUnactuatedTile && Main.tile[tile.X, tile.Y].TileType == TileID.SandstoneBrick)
+							if (Main.tile[tile.X, tile.Y].HasUnactuatedTile && WorldGen.SolidTile(tile))
 								break;
 							tile.Y -= 1;
                         }

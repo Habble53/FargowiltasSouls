@@ -3,3 +3,4 @@ NEW UPDATE - V {ModVersion}
 - Fixed Cursed Coffin half block offset
 - Tweaked Cursed Coffin movement to overshoot less
 - Added Cursed Coffin arena mod calls (Remnants will use this)
+- Cursed Coffin sandfall checks for any solid tile (Remnants will use this)
