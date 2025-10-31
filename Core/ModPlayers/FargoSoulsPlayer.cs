@@ -889,7 +889,7 @@ namespace FargowiltasSouls.Core.ModPlayers
                 if (drawInfo.shadow == 0f)
                 {
                     Color color = Main.DiscoColor;
-                    int index2 = Dust.NewDust(Player.position, Player.width, Player.height, DustID.GemDiamond, 0.0f, 0.0f, 100, color, 2.5f);
+                    int index2 = Dust.NewDust(Player.position, Player.width, Player.height, DustID.GemDiamond, 0.0f, 0.0f, 100, color, 1f);
                     Main.dust[index2].velocity *= 2f;
                     Main.dust[index2].noGravity = true;
                     drawInfo.DustCache.Add(index2);
@@ -1304,26 +1304,11 @@ namespace FargowiltasSouls.Core.ModPlayers
 
         public override void OnExtraJumpStarted(ExtraJump jump, ref bool playSound)
         {
-            if (Player.HasEffect<CobaltEffect>())
+            if (Player.HasEffect<CobaltEffect>() && Player.whoAmI == Main.myPlayer)
             {
-                if (Player.whoAmI == Main.myPlayer)
-                {
-                    int baseDamage = 75;
-
-                    if (Player.ForceEffect<CobaltEffect>())
-                    {
-                        baseDamage = 150;
-                    }
-
-                    if (Player.HasEffect<EarthForceEffect>() || TerrariaSoul)
-                    {
-                        baseDamage = 600;
-                    }
-
-                    Projectile p = FargoSoulsUtil.NewProjectileDirectSafe(Player.GetSource_EffectItem<CobaltEffect>(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CobaltExplosion>(), (int)(baseDamage * Player.ActualClassDamage(DamageClass.Melee)), 0f, Main.myPlayer);
-                    if (p != null)
-                        p.FargoSouls().CanSplit = false;
-                }
+                Projectile p = FargoSoulsUtil.NewProjectileDirectSafe(Player.GetSource_EffectItem<CobaltEffect>(), Player.Center, Vector2.Zero, ModContent.ProjectileType<CobaltExplosion>(), AncientCobaltEffect.BaseDamage(Player) / 2, 0f, Main.myPlayer);
+                if (p != null)
+                    p.FargoSouls().CanSplit = false;
             }
             if (Player.HasEffect<GelicWingSpikes>())
             {

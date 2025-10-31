@@ -154,7 +154,7 @@ namespace FargowiltasSouls.Core.ModPlayers
         public bool ApprenticeEnchantActive;
         public bool DarkArtistEnchantActive;
         public int BeeCD;
-        public int JungleCD;
+        public int ChloroTimer;
         public int BeetleAttackCD;
         public int Beetles;
         public float BeetleCharge;

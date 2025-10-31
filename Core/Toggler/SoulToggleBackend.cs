@@ -154,10 +154,10 @@ namespace FargowiltasSouls.Core.Toggler
             player.SetToggleValue<BeeEffect>(false);
             player.SetToggleValue<CactusEffect>(false);
             player.SetToggleValue<PumpkinEffect>(false);
-            player.SetToggleValue<ChloroMinion>(false);
+            //player.SetToggleValue<ChloroMinion>(false);
             player.SetToggleValue<RainUmbrellaEffect>(false);
             player.SetToggleValue<RainInnerTubeEffect>(false);
-            player.SetToggleValue<JungleJump>(false);
+            player.SetToggleValue<JungleJumpEffect>(false);
             player.SetToggleValue<MoltenEffect>(false);
             player.SetToggleValue<ShroomiteShroomEffect>(false);
             player.SetToggleValue<DarkArtistMinion>(false);
@@ -220,7 +220,7 @@ namespace FargowiltasSouls.Core.Toggler
             player.SetToggleValue<BeetleEffect>(true);
             player.SetToggleValue<SpiderEffect>(true);
             player.SetToggleValue<GoldToPiggy>(true);
-            player.SetToggleValue<JungleDashEffect>(true);
+            //player.SetToggleValue<JungleDashEffect>(true);
             player.SetToggleValue<SupersonicTabi>(true);
             player.SetToggleValue<ValhallaDashEffect>(true);
             player.SetToggleValue<SquireMountJump>(true);

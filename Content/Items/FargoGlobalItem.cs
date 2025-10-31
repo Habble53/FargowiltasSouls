@@ -490,7 +490,7 @@ namespace FargowiltasSouls.Content.Items
         public override bool WingUpdate(int wings, Player player, bool inUse)
         {
             FargoSoulsPlayer modPlayer = player.FargoSouls();
-            if (player.HasEffect<JungleJump>() && inUse)
+            /*if (player.HasEffect<JungleJump>() && inUse)
             {
                 modPlayer.CanJungleJump = false;
 
@@ -522,7 +522,7 @@ namespace FargowiltasSouls.Content.Items
 
                     modPlayer.JungleCD = 24;
                 }
-            }
+            }*/
 
             if (player.HasEffect<BeeEffect>() && inUse)
             {

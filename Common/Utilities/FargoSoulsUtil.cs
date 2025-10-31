@@ -612,11 +612,23 @@ namespace FargowiltasSouls //lets everything access it without using
             return (currentTargetPosition - startingPosition).SafeNormalize(Vector2.UnitY) * shootSpeed;
         }
 
-        public static float NPCRotateTowards(NPC npc, Vector2 target, float speed, float overriderotation = -999)
+        public static float NPCRotateTowards(NPC npc, Vector2 target, float speed, float rotation = default)
         {
-            float rot = overriderotation != -999 ? overriderotation : npc.rotation;
+            float rot = rotation != default ? rotation : npc.rotation;
             Vector2 LV = rot.ToRotationVector2();
             Vector2 PV = npc.SafeDirectionTo(target);
+            float anglediff = RotationDifference(LV, PV);
+            if (anglediff == 0)
+                return rot; //no change
+            //change rotation towards target
+            return rot.ToRotationVector2().RotatedBy(Math.Sign(anglediff) * Math.Min(Math.Abs(anglediff), speed * MathHelper.Pi / 180)).ToRotation();
+        }
+
+        public static float ProjectileRotateTowards(Projectile projectile, Vector2 target, float speed, float rotation = default)
+        {
+            float rot = rotation != default ? rotation : projectile.rotation; 
+            Vector2 LV = rot.ToRotationVector2();
+            Vector2 PV = projectile.SafeDirectionTo(target);
             float anglediff = RotationDifference(LV, PV);
             if (anglediff == 0)
                 return rot; //no change

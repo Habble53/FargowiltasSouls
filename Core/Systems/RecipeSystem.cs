@@ -38,7 +38,7 @@ namespace FargowiltasSouls.Core.Systems
             RecipeGroup.RegisterGroup("FargowiltasSouls:AnyBonesBanner", group);
 
             //cobalt
-            group = new RecipeGroup(() => ItemXOrY(ItemID.CobaltRepeater, ItemID.PalladiumRepeater), ItemID.CobaltRepeater, ItemID.PalladiumRepeater);
+            /*group = new RecipeGroup(() => ItemXOrY(ItemID.CobaltRepeater, ItemID.PalladiumRepeater), ItemID.CobaltRepeater, ItemID.PalladiumRepeater);
             RecipeGroup.RegisterGroup("FargowiltasSouls:AnyCobaltRepeater", group);
 
             //mythril
@@ -55,7 +55,7 @@ namespace FargowiltasSouls.Core.Systems
 
             //any adamantite
             group = new RecipeGroup(() => ItemXOrY(ItemID.AdamantiteBar, ItemID.TitaniumBar), ItemID.AdamantiteBar, ItemID.TitaniumBar);
-            RecipeGroup.RegisterGroup("FargowiltasSouls:AnyAdamantite", group);
+            RecipeGroup.RegisterGroup("FargowiltasSouls:AnyAdamantite", group);*/
 
             //shroomite head
             group = new RecipeGroup(() => AnyItem(ItemID.ShroomiteHelmet), ItemID.ShroomiteHelmet, ItemID.ShroomiteMask, ItemID.ShroomiteHeadgear);
@@ -108,6 +108,11 @@ namespace FargowiltasSouls.Core.Systems
             //colored husk
             group = new RecipeGroup(() => AnyItem("ColorHusk"), ItemID.VioletHusk, ItemID.CyanHusk, ItemID.RedHusk);
             RecipeGroup.RegisterGroup("FargowiltasSouls:AnyColoredHusk", group);
+
+            //jungle ench
+            //regrowth
+            group = new RecipeGroup(() => ItemXOrY(ItemID.StaffofRegrowth, ItemID.AcornAxe), ItemID.StaffofRegrowth, ItemID.AcornAxe);
+            RecipeGroup.RegisterGroup("FargowiltasSouls:AnyStaffofRegrowth", group);
 
             //snow ench
             //hood

@@ -413,7 +413,6 @@ namespace FargowiltasSouls.Core.ModPlayers
                 Player.GetJumpState(ExtraJump.UnicornMount).Disable();*/
                 Player.ConsumeAllExtraJumps();
                 JungleJumping = false;
-                CanJungleJump = false;
                 DashCD = 2;
                 IsDashingTimer = 0;
                 HasDash = false;

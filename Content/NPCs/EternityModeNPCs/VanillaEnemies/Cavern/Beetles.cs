@@ -102,7 +102,7 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.Cavern
                 else npc.velocity *= 0.98f;
             }
 
-            if (npc.type == NPCID.LacBeetle) //dye clouds
+            if (npc.type == NPCID.LacBeetle && npc.HasValidTarget && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0)) //dye clouds
             {
                 if (LacCloudTimer++ >= 180)
                 {

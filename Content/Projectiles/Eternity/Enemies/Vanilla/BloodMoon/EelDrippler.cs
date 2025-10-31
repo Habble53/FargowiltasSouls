@@ -1,26 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FargowiltasSouls.Assets.Particles;
-using FargowiltasSouls.Assets.Sounds;
-using FargowiltasSouls.Common.Graphics.Particles;
-using FargowiltasSouls.Content.Bosses.BanishedBaron;
 using FargowiltasSouls.Content.Buffs.Eternity;
-using FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.Dungeon;
-using FargowiltasSouls.Content.Projectiles.Eternity.Environment;
 using Luminance.Core.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static FargowiltasSouls.Content.Projectiles.EffectVisual;
 
 namespace FargowiltasSouls.Content.Projectiles.Eternity.Enemies.Vanilla.BloodMoon
 {
@@ -48,7 +37,7 @@ namespace FargowiltasSouls.Content.Projectiles.Eternity.Enemies.Vanilla.BloodMoo
                 Projectile.timeLeft += Main.rand.Next(0, 100);
             }
             Projectile.ai[0]++;
-            Projectile.rotation += 1 * MathHelper.ToRadians(Projectile.velocity.Length());
+            Projectile.rotation = Projectile.velocity.ToRotation();
             Projectile.velocity *= 0.97f;
 
             float speed = Projectile.timeLeft <= 90 ? 0.6f : 0.6f;

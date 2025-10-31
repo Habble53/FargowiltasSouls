@@ -115,10 +115,10 @@ ChlorophyteEnchant: {
 	// DisplayName: Chlorophyte Enchantment
 	/* Tooltip:
 		'''
-		Summons a ring of leaf crystals to shoot at nearby enemies
-		While using wings, spores will continuously spawn
-		Allows the ability to dash slightly
-		Double tap a direction
+		Allows the holder to quadruple energy jump
+		Energy jumps release crystallized bombs that shoot at nearby enemies
+		Increases jump height and negates fall damage
+		[i:213] Increases alchemy plant collection
 		'The jungle's essence crystallizes around you'
 		''' */
 }
@@ -283,8 +283,8 @@ JungleEnchant: {
 	// DisplayName: Jungle Enchantment
 	/* Tooltip:
 		'''
-		Allows the holder to triple jump
-		Additional jumps release a cloud of spores at their feet
+		Allows the holder to triple spore jump
+		Spore jumps release a cloud of spores at their feet
 		Increases jump height and fall resistance
 		[i:213] Increases alchemy plant collection
 		'The wrath of the jungle dwells within'
@@ -640,7 +640,7 @@ TinEnchant: {
 	/* Tooltip:
 		'''
 		Increased critical strike chance by 5%
-		Critical strikes increase this bonus by 5%, up to 25%
+		Once every 2 seconds, critical strikes increase this bonus by 5%, up to 25%
 		Getting hit resets this bonus back to 5%
 		'Return of the Crit'
 		''' */

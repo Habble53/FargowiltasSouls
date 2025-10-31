@@ -61,6 +61,7 @@ namespace FargowiltasSouls
             On_Main.DrawMenu += DrawMenu;
 
             On_WorldGen.MakeDungeon += CheckBricks;
+            On_WorldGen.KillTile_GetItemDrops += JungleHerbDrop;
 
             On_Player.CheckSpawn_Internal += LifeRevitalizer_CheckSpawn_Internal;
             On_Player.AddBuff += AddBuff;
@@ -110,6 +111,7 @@ namespace FargowiltasSouls
             On_Main.DrawMenu -= DrawMenu;
 
             On_WorldGen.MakeDungeon -= CheckBricks;
+            On_WorldGen.KillTile_GetItemDrops -= JungleHerbDrop;
 
             On_Player.CheckSpawn_Internal -= LifeRevitalizer_CheckSpawn_Internal;
             On_Player.AddBuff -= AddBuff;
@@ -173,6 +175,33 @@ namespace FargowiltasSouls
                 WorldSavingSystem.DungeonBrickType = "P";
         }
 
+        internal static void JungleHerbDrop(On_WorldGen.orig_KillTile_GetItemDrops orig, int x, int y, Tile tileCache, out int dropItem, out int dropItemStack, out int secondaryItem, out int secondaryItemStack, bool includeLargeObjectDrops)
+        {
+            Player tileplayer = Main.player[Player.FindClosest(new Vector2(x, y) * 16f, 16, 16)];
+            if (tileplayer.HasEffect<JungleHerbEffect>() && (tileCache.TileType == TileID.MatureHerbs || tileCache.TileType == TileID.BloomingHerbs))
+            {
+                int num = tileCache.TileFrameX / 18;
+                dropItem = 313 + num;
+                int tiledrop = 307 + num;
+                if (num == 6)
+                {
+                    dropItem = 2358;
+                    tiledrop = 2357;
+                }
+
+                bool flag = WorldGen.IsHarvestableHerbWithSeed(tileCache.TileType, num);
+                dropItemStack = Main.rand.Next(1, 3);
+                secondaryItem = tiledrop;
+                secondaryItemStack = Main.rand.Next(1, 6);
+                if (flag)
+                {
+                    secondaryItem = tiledrop;
+                    secondaryItemStack = Main.rand.Next(1, 4);
+                }
+                return;
+            }
+            orig(x, y, tileCache, out dropItem, out dropItemStack, out secondaryItem, out secondaryItemStack, includeLargeObjectDrops);
+        }
 
         void ICustomDetourProvider.ModifyMethods()
         {

@@ -108,7 +108,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
                     modPlayer.CobaltCooldownTimer = 30;
             }
 
-            if (modPlayer.CanCobaltJump || modPlayer.JustCobaltJumped && !player.ExtraJumps.ToArray().Any(j => j.Active) && !modPlayer.JungleJumping)
+            if (modPlayer.CanCobaltJump || modPlayer.JustCobaltJumped && !player.ExtraJumps.ToArray().Any(j => j.Active))
             {
                 player.jumpBoost = true; //balloon effect
                 if (notAncient || player.ForceEffect<AncientCobaltEffect>())

@@ -1209,7 +1209,7 @@ namespace FargowiltasSouls.Core.Globals
                     npcLoot.Add(BossDrop(ModContent.ItemType<TheSmallSting>()));
                     break;
 
-                case NPCID.SkeletronHead:
+               case NPCID.SkeletronHead:
                     int item = ModContent.ItemType<BoneZone>();
                     var drop = new DropBasedOnEMode(ItemDropRule.Common(item, 3), ItemDropRule.Common(item, 10), ItemDropRule.Common(item, 1));
                     drop.OnSuccess(ItemDropRule.Common(ModContent.ItemType<BrittleBone>(), 1, 200, 200));

@@ -83,10 +83,7 @@ namespace FargowiltasSouls.Core.ModPlayers
         }
 
         
-
-        public bool CanJungleJump = false;
         public bool JungleJumping = false;
-        public int savedRocketTime;
 
 
         private int GetNumSentries()
