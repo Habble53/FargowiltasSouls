@@ -60,8 +60,8 @@ namespace FargowiltasSouls.Content.Bosses.Champions.Terra
 
         public override void SetDefaults()
         {
-            NPC.width = 80;
-            NPC.height = 80;
+            NPC.width = 120;
+            NPC.height = 120;
             NPC.damage = 135;
             NPC.defense = 80;
             NPC.lifeMax = 155000;
@@ -83,7 +83,6 @@ namespace FargowiltasSouls.Content.Bosses.Champions.Terra
             NPC.behindTiles = true;
             NPC.trapImmune = true;
 
-            NPC.scale *= 1.5f;
         }
 
         public override void ApplyDifficultyAndPlayerScaling(int numPlayers, float balance, float bossAdjustment)
