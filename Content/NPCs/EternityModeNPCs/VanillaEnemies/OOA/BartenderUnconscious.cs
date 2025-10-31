@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
 {
@@ -27,13 +29,30 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
 
         public override void OnSpawn(NPC npc, IEntitySource source)
         {
+            base.OnSpawn(npc, source);
+
             Timer = 300;
             if (source is EntitySource_Parent parent && parent.Entity is NPC parentNPC && parentNPC.type == ModContent.NPCType<TavernkeepPortal>())
                 State = 1;
             else
                 State = -1;
 
-            base.OnSpawn(npc, source);
+            if (Main.dedServ)
+                NetSync(npc);
+        }
+
+        public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
+        {
+            base.SendExtraAI(npc, bitWriter, binaryWriter);
+            binaryWriter.Write7BitEncodedInt(State);
+            binaryWriter.Write7BitEncodedInt(Timer);
+        }
+
+        public override void ReceiveExtraAI(NPC npc, BitReader bitReader, BinaryReader binaryReader)
+        {
+            base.ReceiveExtraAI(npc, bitReader, binaryReader);
+            State = binaryReader.Read7BitEncodedInt();
+            Timer = binaryReader.Read7BitEncodedInt();
         }
 
         public override bool SafePreAI(NPC npc)

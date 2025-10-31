@@ -30,6 +30,7 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
 
         public override void SetDefaults()
         {
+            NPC.damage = 0;
             NPC.width = 80;
             NPC.height = 120;
             NPC.lifeMax = 1000;
@@ -54,91 +55,102 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
             }
 
             timer++;
-            if (state != 0)
+            if (state != 1)
                 Lighting.AddLight(NPC.Center, TorchID.Purple);
 
-            if (state == 0)
+            switch (state)
             {
-                if (timer % 45 == 0)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
-                    FargoSoulsUtil.ScreenshakeRumble(1.5f);
+                case 0:
+                    {
+                        break;
+                    }
+                case 1:
+                    {
+                        if (timer % 45 == 0)
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
+                            FargoSoulsUtil.ScreenshakeRumble(1.5f);
 
-                    SparkCircle(10, Color.Purple, 5, 3, 0.3f, 20);
-                    SparkCircle(10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 10);
-                }
-                if (timer > 45 * 3)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen with { Volume = 2f }, NPC.Center);
-                    timer = 0;
-                    state = 1;
-                }
-            }
-            else if (state == 1)
-            {
-                NPC.TargetClosest();
-                float scale = timer / 60f;
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, Scale: scale);
+                            SparkCircle(10, Color.Purple, 5, 3, 0.3f, 20);
+                            SparkCircle(10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 10);
+                        }
+                        if (timer > 45 * 3)
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen with { Volume = 2f }, NPC.Center);
+                            timer = 0;
+                            state = 1;
+                        }
+                        break;
+                    }
+                case 2:
+                    {
+                        NPC.TargetClosest();
+                        float scale = timer / 60f;
+                        Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, Scale: scale);
 
-                if (timer > 60)
-                {
-                    state = 2;
-                    timer = 0;
-                }
-            }
-            else if (state == 2)
-            {
-                if (timer == 1)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_OgreHurt with { Variants = [2], Pitch = -0.5f }, NPC.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
-                }
+                        if (timer > 60)
+                        {
+                            state = 2;
+                            timer = 0;
+                        }
+                        break;
+                    }
+                case 3:
+                    {
+                        if (timer == 1)
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_OgreHurt with { Variants = [2], Pitch = -0.5f }, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
+                        }
 
-                if (timer == 60)
-                    SoundEngine.PlaySound(SoundID.DD2_OgreSpit, NPC.Center);
+                        if (timer == 60)
+                            SoundEngine.PlaySound(SoundID.DD2_OgreSpit, NPC.Center);
 
-                if (timer == 140)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_OgreAttack, NPC.Center);
-                    SoundEngine.PlaySound(FargosSoundRegistry.ThrowShort, NPC.Center);
-                }
+                        if (timer == 140)
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_OgreAttack, NPC.Center);
+                            SoundEngine.PlaySound(FargosSoundRegistry.ThrowShort, NPC.Center);
+                        }
 
-                if (timer == 152 && FargoSoulsUtil.HostCheck)
-                {
-                    int tavernkeep = FargoSoulsUtil.NewNPCEasy(NPC.GetSource_FromThis(), NPC.Center + 60 * Vector2.UnitX,
-                        NPCID.BartenderUnconscious, velocity: 30 * NPC.direction * Vector2.UnitX - 5 * Vector2.UnitY);
-                    if (tavernkeep < 200)
-                        Main.npc[tavernkeep].AddBuff(BuffID.OgreSpit, 600);
-                }
+                        if (timer == 152 && FargoSoulsUtil.HostCheck)
+                        {
+                            int tavernkeep = FargoSoulsUtil.NewNPCEasy(NPC.GetSource_FromThis(), NPC.Center + 60 * Vector2.UnitX,
+                                NPCID.BartenderUnconscious, velocity: 30 * NPC.direction * Vector2.UnitX - 5 * Vector2.UnitY);
+                            if (tavernkeep < 200)
+                                Main.npc[tavernkeep].AddBuff(BuffID.OgreSpit, 600);
+                        }
 
-                if (timer == 210)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
-                    SoundEngine.PlaySound(SoundID.DD2_OgreRoar, NPC.Center);
-                }
+                        if (timer == 210)
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalSpawnEnemy, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_OgreRoar, NPC.Center);
+                        }
 
-                if (timer >= 260)
-                {
-                    state = 3;
-                    timer = 0;
-                }
-            }
-            else if (state == 3)
-            {
-                float scale = (60 - timer) / 60f;
-                Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, Scale: scale);
+                        if (timer >= 260)
+                        {
+                            state = 3;
+                            timer = 0;
+                        }
+                        break;
+                    }
+                case 4:
+                    {
+                        float scale = (60 - timer) / 60f;
+                        Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, Scale: scale);
 
-                if (timer == 1)
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen with { Volume = 2f }, NPC.Center);
+                        if (timer == 1)
+                            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen with { Volume = 2f }, NPC.Center);
 
-                if (timer > 60)
-                {
-                    SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
-                    FargoSoulsUtil.ScreenshakeRumble(1.5f);
-                    SparkCircle(10, Color.Purple, 5, 3, 0.3f, 30);
-                    SparkCircle(10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 15);
-                    NPC.active = false;
-                }
+                        if (timer > 60)
+                        {
+                            SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
+                            FargoSoulsUtil.ScreenshakeRumble(1.5f);
+                            SparkCircle(10, Color.Purple, 5, 3, 0.3f, 30);
+                            SparkCircle(10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 15);
+                            NPC.active = false;
+                        }
+                        break;
+                    }
             }
         }
 
