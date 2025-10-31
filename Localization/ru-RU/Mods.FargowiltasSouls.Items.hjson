@@ -3873,10 +3873,10 @@ SoulLantern: {
 }
 
 DraconicCrystal: {
-	// DisplayName: Draconic Crystal
-	/* Tooltip:
+	DisplayName: Драконий кристалл
+	Tooltip:
 		'''
-		Place in the Eternia Crystal Stand to summon Etheria's portals
-		The event will instantly begin on the strongest tier at Wave 7
-		''' */
+		Поместите на стенд для этернианского кристалла, чтобы призвать порталы Этерии
+		Нашествие начнётся сразу на 7-й волне наивысшего доступного уровня
+		'''
 }
