@@ -1,14 +1,5 @@
 NEW UPDATE - V {ModVersion}
-- Spirit Champion: Cannot grab for 2.5 seconds after grabbing any player
-- Fixed menu links sometimes showing outside of the menu under certain conditions
-- Fixed Wall of Flesh ichor projectiles moving much slower than intended
-- Fixed Champion of Timber not dropping its mask on Eternity Mode
-- Special Dashes no longer disable mounts while used
-- Bee Dash now uses Royal Subject sprite instead of scaled down Queen Bee sprite, slightly improved visuals
-- Fixed Betsy's Heart granting the Bee Dash effect
-- Fixed issue with Special Dash types overriding eachother
-- Fixed Betsys Heart visual animating way faster than intended
-- Fixed Force of Timber acorns spawning while boreal snowballs are disabled
-- Fixed Fish Nuke not exploding when hitting tiles
-- Fixed Duke Fishron occasionally not spawning bubbles when intended in For the Worthy
-- Reduced Nuke Fishron and Mythril Enchant volume
+- Fixed Wall of Flesh ichor issue
+- Fixed Cursed Coffin half block offset
+- Tweaked Cursed Coffin movement to overshoot less
+- Added Cursed Coffin arena mod calls (Remnants will use this)
