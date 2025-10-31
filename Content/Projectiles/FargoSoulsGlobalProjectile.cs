@@ -386,7 +386,6 @@ namespace FargowiltasSouls.Content.Projectiles
 
                             projectile.usesIDStaticNPCImmunity = true;
                             projectile.idStaticNPCHitCooldown = 10;
-                            noInteractionWithNPCImmunityFrames = true;
                         }
                     }
                     break;
@@ -409,7 +408,6 @@ namespace FargowiltasSouls.Content.Projectiles
                             projectile.idStaticNPCHitCooldown = 10;
 
                             projectile.FargoSouls().CanSplit = false;
-                            projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
 
                             FargowiltasSouls.MutantMod.Call("LowRenderProj", projectile);
                         }
@@ -508,6 +506,11 @@ namespace FargowiltasSouls.Content.Projectiles
                 {
                     ApprenticeSupportProjectile = true; // tag it, meaning we now know that this projectile is from Apprentice Support effect
                 }
+            }
+            if (projectile is not null && projectile.owner.IsWithinBounds(Main.maxPlayers) && projectile.friendly && !projectile.appliesImmunityTimeOnSingleHits &&
+               (projectile.penetrate > 1 || projectile.penetrate == -1) && (projectile.usesLocalNPCImmunity || projectile.usesIDStaticNPCImmunity))
+            {
+                noInteractionWithNPCImmunityFrames = true;
             }
         }
 
@@ -1687,6 +1690,9 @@ namespace FargowiltasSouls.Content.Projectiles
         public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
         {
             Point p = (projectile.Center + oldVelocity).ToTileCoordinates();
+            if (!(p.X - 10).IsWithinBounds(Main.maxTilesX - 20) || !(p.Y - 10).IsWithinBounds(Main.maxTilesY - 20))
+                return base.OnTileCollide(projectile, oldVelocity);
+
             Tile tile = Main.tile[p.X, p.Y];
 
             if (tile != null && tile.HasTile && tile.TileType == ModContent.TileType<BouncyMushroomTile>())

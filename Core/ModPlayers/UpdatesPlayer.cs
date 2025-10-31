@@ -461,7 +461,7 @@ namespace FargowiltasSouls.Core.ModPlayers
                 Player.fullRotation = 0f;
                 NecromanticBrewRotation = 0f;
             }
-            if (Player.FargoSouls().Toggler_ExtraJumpsDisabled && Player.wingTime > 0)
+            if (Player.FargoSouls().Toggler_ExtraJumpsDisabled && Player.wingTimeMax > 0)
                 Player.ConsumeAllExtraJumps();
         }
         public override void UpdateLifeRegen()

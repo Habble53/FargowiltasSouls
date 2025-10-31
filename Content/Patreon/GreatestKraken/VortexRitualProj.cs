@@ -44,7 +44,6 @@ namespace FargowiltasSouls.Content.Patreon.GreatestKraken
 
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 10;
-            Projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

@@ -26,8 +26,6 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
             Item.value = 20000;
         }
 
-        public override void UpdateInventory(Player player) => player.AddEffect<CactusPassiveEffect>(Item);
-        public override void UpdateVanity(Player player) => player.AddEffect<CactusPassiveEffect>(Item);
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.AddEffect<CactusEffect>(Item);
@@ -104,7 +102,7 @@ namespace FargowiltasSouls.Content.Items.Accessories.Enchantments
 
     public class CactusPassiveEffect : AccessoryEffect
     {
-        // Gives player immunity to some cactus hazards like rolling cactus tile damage, DST cactus damage or cactus mimic aggro
-        public override Header ToggleHeader => null;
+        public override Header ToggleHeader => Header.GetHeader<LifeHeader>();
+        public override int ToggleItemType => ModContent.ItemType<CactusEnchant>();
     }
 }

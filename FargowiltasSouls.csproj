@@ -1,15 +1,96 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-    
-    <Import Project="..\tModLoader.targets" />
-
-    <PropertyGroup>
-        <AssemblyName>FargowiltasSouls</AssemblyName>
-        <LangVersion>preview</LangVersion>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <Reference Include="lib\**\*" />
-    </ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\tModLoader.targets" />
+  <PropertyGroup>
+    <AssemblyName>FargowiltasSouls</AssemblyName>
+	  <LangVersion>preview</LangVersion>
+	  <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <AdditionalFiles Remove="Content\Items\Items\**" />
+    <AdditionalFiles Remove="Content\Projectiles\Eternity\Accessories\**" />
+    <AdditionalFiles Remove="Content\Projectiles\Masomode\**" />
+    <AdditionalFiles Remove="Content\WorldGen\**" />
+    <Compile Remove="Content\Items\Items\**" />
+    <Compile Remove="Content\Projectiles\Eternity\Accessories\**" />
+    <Compile Remove="Content\Projectiles\Masomode\**" />
+    <Compile Remove="Content\WorldGen\**" />
+    <Compile Remove="Folders to Port\**" />
+    <EmbeddedResource Remove="Content\Items\Items\**" />
+    <EmbeddedResource Remove="Content\Projectiles\Eternity\Accessories\**" />
+    <EmbeddedResource Remove="Content\Projectiles\Masomode\**" />
+    <EmbeddedResource Remove="Content\WorldGen\**" />
+    <EmbeddedResource Remove="Folders to Port\**" />
+    <None Remove="Content\Items\Items\**" />
+    <None Remove="Content\Projectiles\Eternity\Accessories\**" />
+    <None Remove="Content\Projectiles\Masomode\**" />
+    <None Remove="Content\WorldGen\**" />
+    <None Remove="Folders to Port\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\AutoloadedEffects\Shaders\EmpressRitualShader.fx" />
+    <None Remove="Assets\AutoloadedEffects\Shaders\IchorDropletShader.fx" />
+    <None Remove="Assets\AutoloadedEffects\Shaders\NatureAuraShader.fx" />
+    <None Remove="Assets\AutoloadedEffects\Shaders\SpiritAuraShader.fx" />
+    <None Remove="Assets\AutoloadedEffects\Shaders\WillChampTrail.fx" />
+    <None Remove="Assets\Textures\Noise\CracksNoise.png" />
+    <None Remove="Assets\Textures\Noise\DottedNoise.png" />
+    <None Remove="Assets\Textures\Noise\SandyNoise.png" />
+    <None Remove="Assets\Textures\UI\OncomingMutantnt.png" />
+    <None Remove="Content\Bosses\CursedCoffin\CursedCoffin_FTW.png" />
+    <None Remove="Content\Items\Accessories\Eternity\LithosphericCluster.png" />
+    <None Remove="Content\Items\Accessories\Eternity\LithosphericClusterInactive.png" />
+    <None Remove="Content\Items\Accessories\Eternity\LithosphericClusterInactive_Shield.png" />
+    <None Remove="Content\Items\Accessories\Eternity\LithosphericCluster_Shield.png" />
+    <None Remove="Content\Items\Armor\BaronMask.png" />
+    <None Remove="Content\Items\Armor\BaronMask_Head.png" />
+    <None Remove="Content\Items\Armor\CoffinMask.png" />
+    <None Remove="Content\Items\Armor\CoffinMask_Head.png" />
+    <None Remove="Content\Items\Armor\DeathMask.png" />
+    <None Remove="Content\Items\Armor\DeathMask_Head.png" />
+    <None Remove="Content\Items\Armor\EarthMask.png" />
+    <None Remove="Content\Items\Armor\EarthMask_Head.png" />
+    <None Remove="Content\Items\Armor\LifelightMask.png" />
+    <None Remove="Content\Items\Armor\LifelightMask_Head.png" />
+    <None Remove="Content\Items\Armor\LifeMask.png" />
+    <None Remove="Content\Items\Armor\LifeMask_Head.png" />
+    <None Remove="Content\Items\Armor\NatureMask.png" />
+    <None Remove="Content\Items\Armor\NatureMask_Head.png" />
+    <None Remove="Content\Items\Armor\SpiritMask.png" />
+    <None Remove="Content\Items\Armor\SpiritMask_Head.png" />
+    <None Remove="Content\Items\Armor\TerraMask.png" />
+    <None Remove="Content\Items\Armor\TerraMask_Head.png" />
+    <None Remove="Content\Items\Armor\TimberMask.png" />
+    <None Remove="Content\Items\Armor\TimberMask_Head.png" />
+    <None Remove="Content\Items\Armor\TrojanMask.png" />
+    <None Remove="Content\Items\Armor\TrojanMask_Head.png" />
+    <None Remove="Content\Items\Armor\WillMask.png" />
+    <None Remove="Content\Items\Armor\WillMask_Head.png" />
+    <None Remove="Content\Projectiles\Weapons\BossWeapons\MechFlailEye.png" />
+    <None Remove="Content\Projectiles\Weapons\BossWeapons\PhantasmalEyeLeashProj.png" />
+    <None Remove="Content\Projectiles\Weapons\BossWeapons\PhantasmalFlailEye.png" />
+    <None Remove="Content\Projectiles\Accessories\Souls\PalmwoodShot.png" />
+    <None Remove="Content\Projectiles\Accessories\Souls\PalmwoodShot2.png" />
+    <None Remove="Content\Projectiles\Accessories\Souls\SpookySpinScythe.png" />
+    <None Remove="Localization\en-US\Mods.FargowiltasSouls.ActiveSkills.hjson" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Textures\Content\NPCs\" />
+    <Folder Include="Assets\Textures\Gores\Weapons\BigSting\" />
+    <Folder Include="Assets\Sounds\Challengers\Trojan\" />
+    <Folder Include="Assets\Sounds\VanillaEternity\KingSlime\" />
+    <Folder Include="Common\Graphics\Drawers\" />
+    <Folder Include="Content\Projectiles\Eternity\Enemies\Custom\" />
+    <Folder Include="Content\WorldGen\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Luminance">
+      <HintPath>Luminance.dll</HintPath>
+    </Reference>
+    <Reference Include="Fargowiltas">
+      <HintPath>Fargowiltas.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureHelper">
+      <HintPath>StructureHelper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

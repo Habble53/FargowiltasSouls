@@ -27,7 +27,6 @@ namespace FargowiltasSouls.Content.Projectiles
 
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 0;
-            Projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
             Projectile.FargoSouls().DeletionImmuneRank = 2;
             Projectile.FargoSouls().CanSplit = false;
 

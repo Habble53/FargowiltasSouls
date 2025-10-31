@@ -1,4 +1,5 @@
 ﻿using FargowiltasSouls.Assets.Textures;
+using Humanizer;
 using Luminance.Core.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -187,14 +188,21 @@ namespace FargowiltasSouls.Content.Sky
                     -screenCenter.X * scalers[i] % bg.Width,
                     MathHelper.Lerp(Main.screenHeight / 2 + yOffset[i], Main.screenHeight * 0.85f + yOffset[i] / 2, 1 - yLerp)
                     );
-                Vector2 pos2 = pos1;
-                pos2.X += bg.Width;
-                Vector2 pos3 = pos2;
-                pos3.X += bg.Width;
 
-                spriteBatch.Draw(bg, pos1, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(bg, pos2, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(bg, pos3, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                int count = (int)Math.Ceiling(Main.screenWidth * 2f / bg.Width);
+                for (int j = 0; j < count; j++)
+                {
+                    Vector2 pos = pos1;
+                    pos.X += bg.Width * j;
+                    spriteBatch.Draw(bg, pos, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                }
+
+                if (i == 2)
+                {
+                    pos1.Y += 1 * bg.Height / 3;
+                    Texture2D texture = ModContent.Request<Texture2D>("Fargowiltas/Assets/InstaVisualSquare").Value;
+                    spriteBatch.Draw(texture, pos1, frame, Color.Black, 0, Vector2.Zero, new Vector2(10000f, 10000f), SpriteEffects.None, 0);
+                }
             }
             return base.PreDrawCloseBackground(spriteBatch);
 

@@ -30,7 +30,6 @@ namespace FargowiltasSouls.Content.Projectiles.Weapons.SwarmDrops
 
             Projectile.usesIDStaticNPCImmunity = true;
             Projectile.idStaticNPCHitCooldown = 6;
-            Projectile.FargoSouls().noInteractionWithNPCImmunityFrames = true;
         }
 
         public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)

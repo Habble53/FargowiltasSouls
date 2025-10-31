@@ -56,7 +56,7 @@ namespace FargowiltasSouls.Core.AccessoryEffectSystem
                 if (effect.ExtraAttackEffect && modPlayer.Toggler_ExtraAttacksDisabled)
                     return false;
 
-                if (effect.ExtraJumpEffect && modPlayer.Toggler_ExtraJumpsDisabled)
+                if (effect.ExtraJumpEffect && player.wingTimeMax > 0 && modPlayer.Toggler_ExtraJumpsDisabled)
                     return false;
 
                 SoulsItem soulsItem = item != null && item.ModItem is SoulsItem si ? si : null;
