@@ -100,8 +100,6 @@ namespace FargowiltasSouls.Core.Systems
         
         public static bool HaveForcedMutantFromKS { get => haveForcedMutantFromKS; set => haveForcedMutantFromKS = value;}
 
-        public static bool HaveSeenTavernkeepEvent { get => tavernkeepPortalEvent; set => tavernkeepPortalEvent = value; }
-
         public static bool PlacedMutantStatue;
 
         public static string DungeonBrickType = "B";

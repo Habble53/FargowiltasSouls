@@ -465,22 +465,29 @@ namespace FargowiltasSouls.Core.Systems
                 //Main.SceneMetrics.ActiveFountainColor = 12;
             }
 
-            if (!HaveSeenTavernkeepEvent && NPC.downedBoss2 && !NPC.savedBartender)
+            if (NPC.downedBoss2 && !NPC.savedBartender)
             {
-                Player? player = Main.player.FirstOrDefault(x => x.active && (x.ZoneOverworldHeight || (Main.remixWorld && x.ZoneUnderworldHeight)));
-                if (player != null)
+                Player? surfacePlayer = Main.player.FirstOrDefault(x => x.active && (x.ZoneOverworldHeight || (Main.remixWorld && x.ZoneUnderworldHeight)));
+                if (surfacePlayer != null && !NPC.AnyNPCs(ModContent.NPCType<TavernkeepPortal>()))
                 {
-                    int portalCD = LumUtils.SecondsToFrames(10);
+                    int portalCD = LumUtils.MinutesToFrames(1.5f);
 
                     TavernkeepPortalTimer++;
                     if (TavernkeepPortalTimer >= portalCD && !NPC.AnyNPCs(NPCID.BartenderUnconscious))
                     {
-                        FargoSoulsUtil.NewNPCEasy(null, player.Center, ModContent.NPCType<TavernkeepPortal>());
-                        TavernkeepPortalTimer = 0;
-                        HaveSeenTavernkeepEvent = true;
-                        if (Main.netMode == NetmodeID.Server)
+                        FargoSoulsUtil.PrintLocalization($"Mods.{Mod.Name}.Message.{Name}.TavernkeepPortal", Color.HotPink);
+                        FargoSoulsUtil.SpawnOnPlayerNoMessage(surfacePlayer.whoAmI, ModContent.NPCType<TavernkeepPortal>());
+                        TavernkeepPortalTimer = -portalCD;
+                        if (Main.dedServ)
                             NetMessage.SendData(MessageID.WorldData);
                     }
+                }
+                else
+                {
+                    if (TavernkeepPortalTimer > 0)
+                        TavernkeepPortalTimer--;
+                    if (TavernkeepPortalTimer < 0)
+                        TavernkeepPortalTimer++;
                 }
             }
         }

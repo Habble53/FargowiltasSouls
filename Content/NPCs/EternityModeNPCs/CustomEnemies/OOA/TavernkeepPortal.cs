@@ -1,6 +1,7 @@
 ﻿using FargowiltasSouls.Assets.Sounds;
 using FargowiltasSouls.Assets.Textures;
 using FargowiltasSouls.Common.Graphics.Particles;
+using FargowiltasSouls.Core.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -71,7 +72,6 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
                     }
                 case 1:
                     {
-
                         if (timer % 3 == 0)
                         {
                             new SparkParticle(NPC.Center, 5 * Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi), Color.Purple, 0.3f, 30).Spawn();
@@ -89,6 +89,7 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
                     }
                 case 2:
                     {
+                        NPC.TargetClosest(true);
                         if (timer % 45 == 0)
                         {
                             SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
@@ -108,9 +109,11 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
                     }
                 case 3:
                     {
-                        NPC.TargetClosest();
                         float scale = timer / 60f;
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, Scale: scale);
+
+                        if (NPC.HasValidTarget)
+                            NPC.direction = (int)NPC.HorizontalDirectionTo(Main.player[NPC.target].Center);
 
                         if (timer > 60)
                         {
