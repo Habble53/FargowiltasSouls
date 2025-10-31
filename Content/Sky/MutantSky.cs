@@ -24,6 +24,7 @@ namespace FargowiltasSouls.Content.Sky
         private float lifeIntensity = 0f;
         private float shaderIntensity = 0f;
         private float specialColorLerp = 0f;
+        private float extraElementsIntensity = 0f;
         private Color? specialColor = null;
         private int delay = 0;
         const int amountOfStatic = 200;
@@ -51,6 +52,20 @@ namespace FargowiltasSouls.Content.Sky
                 }
 
                 bool raiseShader = true;
+
+                // reduce aurora and tv bands intensity during final spark because spark shader makes contrast go way up so these become really dazzling
+                if (MutantBoss.DoingSuperFinalSpark)
+                {
+                    extraElementsIntensity -= increment;
+                    if (extraElementsIntensity < 0.5f)
+                        extraElementsIntensity = 0.5f;
+                }
+                else
+                {
+                    extraElementsIntensity += increment;
+                    if (extraElementsIntensity > 1)
+                        extraElementsIntensity = 1;
+                }
 
                 switch ((int)Main.npc[EModeGlobalNPC.mutantBoss].ai[0])
                 {
@@ -110,6 +125,10 @@ namespace FargowiltasSouls.Content.Sky
                 specialColorLerp -= increment * 2;
                 if (specialColorLerp < 0)
                     specialColorLerp = 0;
+
+                extraElementsIntensity -= increment;
+                if (extraElementsIntensity < 0)
+                    extraElementsIntensity = 0;
 
                 intensity -= increment;
                 if (intensity < 0f)
@@ -184,15 +203,12 @@ namespace FargowiltasSouls.Content.Sky
             var blackTile = TextureAssets.MagicPixel;
             var noise = ModContent.Request<Texture2D>("FargowiltasSouls/Content/Sky/deepspace");
             var rayTexture = FargoAssets.LightRayTexture;
-            //var noise2 = FargoAssets.SandyNoise;
             if (!blackTile.IsLoaded)
                 return;
             if (!noise.IsLoaded)
                 return;
             if (!rayTexture.IsLoaded)
                 return;
-            //if (!noise2.IsLoaded)
-            //    return;
 
             ManagedShader blackShader = ShaderManager.GetShader("FargowiltasSouls.MutantNewBackgroundShader");
             blackShader.TrySetParameter("radius", Main.screenHeight * 1.6f);
@@ -202,8 +218,7 @@ namespace FargowiltasSouls.Content.Sky
             blackShader.TrySetParameter("screenSize", Main.ScreenSize.ToVector2());
             blackShader.TrySetParameter("maxOpacity", opacity * shaderIntensity);
 
-            Main.spriteBatch.GraphicsDevice.Textures[1] = noise.Value;
-            //Main.spriteBatch.GraphicsDevice.Textures[2] = noise2.Value;
+            spriteBatch.GraphicsDevice.Textures[1] = noise.Value;
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, blackShader.WrappedEffect, Main.GameViewMatrix.TransformationMatrix);
@@ -213,7 +228,7 @@ namespace FargowiltasSouls.Content.Sky
             // aurora
 
             
-            Main.spriteBatch.UseBlendState(BlendState.Additive);
+            spriteBatch.UseBlendState(BlendState.Additive);
 
             int timer = (int)(Main.GlobalTimeWrappedHourly * 60f);
             if (timer % 4 == 0)
@@ -244,7 +259,7 @@ namespace FargowiltasSouls.Content.Sky
                     removeRays.Add(ray);
                     continue;
                 }
-                float rayOpacity = opacity * shaderIntensity;
+                float rayOpacity = opacity * shaderIntensity * extraElementsIntensity * 0.85f;
                 float fadeTime = 120;
                 if (ray.TimeLeft <= fadeTime)
                 {
@@ -265,13 +280,10 @@ namespace FargowiltasSouls.Content.Sky
             foreach (var ray in removeRays)
                 LightRays.Remove(ray);
 
-            spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-
-            //Main.spriteBatch.ResetToDefault();
-
             DoTvBands(spriteBatch, opacity);
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 
 
@@ -291,47 +303,29 @@ namespace FargowiltasSouls.Content.Sky
 
                 Rectangle frame = new Rectangle(0, i * bg.Height / 3, bg.Width, bg.Height / 3);
 
-                Vector2 pos1 = new(
+                Vector2 pos = new(
                     -screenCenter.X * scalers[i] % bg.Width,
                     MathHelper.Lerp(Main.screenHeight / 2 + yOffset[i], Main.screenHeight * 0.85f + yOffset[i] / 2, 1 - yLerp)
                     );
-                Vector2 pos2 = pos1;
-                pos2.X += bg.Width;
-                Vector2 pos3 = pos2;
-                pos3.X += bg.Width;
 
-                spriteBatch.Draw(bg, pos1, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(bg, pos2, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
-                spriteBatch.Draw(bg, pos3, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                for (int j = 0; j < 4; j++)
+                {
+                    Vector2 drawPos = pos;
+                    drawPos.X += bg.Width * j;
+                    spriteBatch.Draw(bg, drawPos, frame, bgColor, 0, Vector2.Zero, 1f, SpriteEffects.None, 0);
+                }
             }
+
+            /*
+            spriteBatch.Draw(
+                ModContent.Request<Texture2D>($"FargowiltasSouls/Content/Sky/MutantVignette", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
+                new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), 
+                (FargoSoulsUtil.AprilFools ? Color.Red : Color.Blue) * shaderIntensity * 0.2f);
+            */
         }
 
         void DoTvBands(SpriteBatch spriteBatch, float opacity)
         {
-            /*
-            if (--delay < 0)
-            {
-                delay = Main.rand.Next(5 + (int)(85f * (1f - lifeIntensity)));
-                for (int i = 0; i < amountOfStatic; i++) //update positions
-                {
-                    xPos[i] = Main.rand.Next(Main.screenWidth);
-                    yPos[i] = Main.rand.Next(Main.screenHeight);
-                }
-            }
-            
-            Texture2D staticTexture = ModContent.Request<Texture2D>("FargowiltasSouls/Content/Sky/MutantStatic", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-            for (int i = 0; i < amountOfStatic; i++) //static on screen
-            {
-                int width = Main.rand.Next(3, 251);
-                spriteBatch.Draw(staticTexture, new Rectangle(xPos[i] - width / 2, yPos[i], width, 3),
-                color * lifeIntensity * 0.75f);
-            }
-            */
-
-            Color vignetteColor = (FargoSoulsUtil.AprilFools ? Color.Red : Color.Blue) * shaderIntensity * 0.2f;
-            spriteBatch.Draw(ModContent.Request<Texture2D>($"FargowiltasSouls/Content/Sky/MutantVignette", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value,
-                new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), vignetteColor);
-
             var blackTile = TextureAssets.MagicPixel;
             var risingFlame = ModContent.Request<Texture2D>("FargowiltasSouls/Content/Sky/MutantFlame");
             if (!blackTile.IsLoaded || !risingFlame.IsLoaded)
@@ -342,18 +336,15 @@ namespace FargowiltasSouls.Content.Sky
             wavyTvShader.TrySetParameter("screenPosition", Main.screenPosition);
             wavyTvShader.TrySetParameter("screenSize", Main.ScreenSize.ToVector2());
             wavyTvShader.TrySetParameter("scrollSpeed", opacity);
-            wavyTvShader.TrySetParameter("opacity", shaderIntensity * lifeIntensity);
+            wavyTvShader.TrySetParameter("opacity", shaderIntensity * lifeIntensity * extraElementsIntensity);
 
-            Main.spriteBatch.GraphicsDevice.Textures[1] = risingFlame.Value;
+            spriteBatch.GraphicsDevice.Textures[1] = risingFlame.Value;
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, wavyTvShader.WrappedEffect, Main.GameViewMatrix.TransformationMatrix);
 
             Rectangle rekt = new(Main.screenWidth / 2, Main.screenHeight / 2, Main.screenWidth, Main.screenHeight);
             spriteBatch.Draw(blackTile.Value, rekt, null, default, 0f, blackTile.Value.Size() * 0.5f, 0, 0f);
-
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override float GetCloudAlpha()
