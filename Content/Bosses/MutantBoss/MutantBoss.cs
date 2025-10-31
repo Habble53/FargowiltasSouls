@@ -80,6 +80,8 @@ namespace FargowiltasSouls.Content.Bosses.MutantBoss
 
         public const int HyperMax = 5;
 
+        public static bool DoingSuperFinalSpark;
+
         public enum P1Attacks
         {
             SpearTossDirect = 0,
@@ -263,6 +265,9 @@ namespace FargowiltasSouls.Content.Bosses.MutantBoss
             EModeGlobalNPC.mutantBoss = NPC.whoAmI;
 
             NPC.dontTakeDamage = AttackChoice < 0; //invul in p3
+
+            if (AttackChoice != -5)
+                DoingSuperFinalSpark = false;
 
             // Set this to false by default.
             ShouldDrawAura = false;
@@ -4195,6 +4200,8 @@ namespace FargowiltasSouls.Content.Bosses.MutantBoss
             }
             else if (NPC.ai[2] == 420 - 90) //dramatic telegraph
             {
+                DoingSuperFinalSpark = true;
+
                 if (NPC.localAI[1] == 0) //maso do ordinary spark
                 {
                     NPC.localAI[1] = 1;
