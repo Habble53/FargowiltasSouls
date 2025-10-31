@@ -68,7 +68,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
         {
             Targeting();
             Player player = Main.player[NPC.target];
-            if (!player.Alive() || player.Distance(CoffinArena.Center.ToWorldCoordinates()) > 1000)
+            if (!player.Alive() || player.Distance(CoffinArena.FightCenter) > 1000)
             {
                 NPC.active = false;
                 NPC.netUpdate = true;
@@ -157,7 +157,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
                 }
             }
             // Arena stuff
-            Vector2 arenaCenter = CoffinArena.Center.ToWorldCoordinates();
+            Vector2 arenaCenter = CoffinArena.FightCenter;
             float distanceX = Math.Abs(localPlayer.Center.X - arenaCenter.X);
             float threshold = CoffinArena.VectorWidth / 2f;
             int DustType = DustID.Sand;
@@ -269,7 +269,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
 
 			const int TransTime = 90;
 			//NPC.velocity = -Vector2.UnitY * 5 * (1 - (Timer / (TransTime * 1.5f)));
-			NPC.velocity = (CoffinArena.Center.ToWorldCoordinates() - NPC.Center) * 0.05f;
+			NPC.velocity = (CoffinArena.FightCenter  - NPC.Center) * 0.05f;
             NPC.rotation = Main.rand.NextFloat(MathF.Tau * 0.06f * (Timer / TransTime));
 			SoundEngine.PlaySound(SpiritDroneSFX, NPC.Center);
             NPC.HitSound = SoundID.NPCHit4;
@@ -476,8 +476,8 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
 					NPC.velocity = Vector2.Zero;
 				}
 			}
-            if (Math.Abs(NPC.Center.X - CoffinArena.Center.ToWorldCoordinates().X) > (CoffinArena.Width * 8) - NPC.width / 2)
-                if (NPC.velocity.X.NonZeroSign() != NPC.HorizontalDirectionTo(CoffinArena.Center.ToWorldCoordinates()))
+            if (Math.Abs(NPC.Center.X - CoffinArena.FightCenter.X) > (CoffinArena.Width * 8) - NPC.width / 2)
+                if (NPC.velocity.X.NonZeroSign() != NPC.HorizontalDirectionTo(CoffinArena.FightCenter))
                     NPC.velocity.X = 0;
         }
 
@@ -488,7 +488,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
 			float progress = 1 - (Timer / TelegraphTime);
 			Vector2 maskCenter = MaskCenter();
 
-            Vector2 desiredPos = WorldSavingSystem.CoffinArenaCenter.ToWorldCoordinates();
+            Vector2 desiredPos = CoffinArena.FightCenter;
             Movement(desiredPos, 0.1f, 14, 5, 0.08f, 20);
 			float dist = NPC.Distance(desiredPos);
 			if (dist > 50)
@@ -551,9 +551,9 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
                     SoundEngine.PlaySound(SoundID.Item14 with { Pitch = -0.5f }, NPC.Center);
                     SoundEngine.PlaySound(SlamSFX, NPC.Center);
                     Timer = -180;
-					int dir = Math.Sign(Player.Center.X - CoffinArena.Center.ToWorldCoordinates().X);
+					int dir = Math.Sign(Player.Center.X - CoffinArena.FightCenter.X);
                     int leniencyTime = WorldSavingSystem.MasochistModeReal ? -20 : WorldSavingSystem.EternityMode ? 10 : Main.expertMode ? 20 : 30;
-                    Vector2 center = CoffinArena.Center.ToWorldCoordinates();
+                    Vector2 center = CoffinArena.FightCenter;
                     const int ProjCount = 20;
 
                     if (!Main.dedServ)
@@ -580,7 +580,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
 
                         if (i == -1) // anti-cheese rock
                         {
-                            projPos.X = CoffinArena.Center.X + dir * (CoffinArena.Width * 8f - 24f);
+                            projPos.X = CoffinArena.FightCenter.X + dir * (CoffinArena.Width * 8f - 24f);
                             fromWall = 0;
                         }
 
@@ -728,7 +728,7 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
                 float incline = MathF.Abs(MathF.Sin(angle));
                 float angledHeight = (int)(MathHelper.Lerp(NPC.height, NPC.width, incline) * NPC.scale);
                 Vector2 desiredPos =
-                    CoffinArena.Center.ToWorldCoordinates() +
+                    CoffinArena.FightCenter +
                     Vector2.UnitY * ((CoffinArena.Height * 8) - (angledHeight)) +
                     Vector2.UnitX * Math.Sign(NPC.Center.X - Player.Center.X) * (CoffinArena.Width * 8 - (NPC.width * 1.5f));
                 CoffinArena.ClampWithinArena(desiredPos, NPC);
@@ -815,11 +815,11 @@ namespace FargowiltasSouls.Content.Bosses.CursedCoffin
 
 		public void Movement(Vector2 pos, float accel = 0.03f, float maxSpeed = 20, float lowspeed = 5, float decel = 0.03f, float slowdown = 30)
 		{
-			if (NPC.Distance(pos) > slowdown)
-				NPC.velocity = Vector2.Lerp(NPC.velocity, (pos - NPC.Center).SafeNormalize(Vector2.Zero) * maxSpeed, accel);
-			else
-				NPC.velocity = Vector2.Lerp(NPC.velocity, (pos - NPC.Center).SafeNormalize(Vector2.Zero) * lowspeed, decel);
-		}
+            accel = accel * 5;
+            decel = decel * 5;
+            float resistance = NPC.velocity.Length() * accel / (maxSpeed);
+            NPC.velocity = FargoSoulsUtil.SmartAccel(NPC.Center, pos, NPC.velocity, accel - resistance, decel + resistance);
+        }
 		public bool Targeting()
 		{
 			Player player = Main.player[NPC.target];
