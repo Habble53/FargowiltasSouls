@@ -44,7 +44,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
 
             npc.trapImmune = true;
 
-            npc.damage = (int)Math.Round(npc.damage * 1.25);
+            npc.damage = (int)Math.Round(npc.damage * 1.15);
 
             npc.lifeMax = (int)Math.Round(npc.lifeMax * 1.75);
         }
@@ -162,7 +162,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             base.SetDefaults(npc);
 
             npc.lifeMax *= 3; // Compensation for 1.4.4 buff
-            npc.damage = (int)(npc.damage * 1.2);
+            npc.damage = (int)(npc.damage * 1.15);
         }
 
         public override bool SafePreAI(NPC npc)
@@ -499,7 +499,7 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
             base.SetDefaults(npc);
 
             npc.lifeMax *= 2;
-            npc.damage = (int)(npc.damage * 1.3);
+            npc.damage = (int)(npc.damage * 1.15);
             NPCID.Sets.ImmuneToAllBuffs[npc.type] = true;
 
             //npc.scale += 0.5f;
@@ -645,8 +645,8 @@ namespace FargowiltasSouls.Content.Bosses.VanillaEternity
         public override bool SafePreAI(NPC npc)
         {
             bool result = base.SafePreAI(npc);
-            if (npc.damage < 165)
-                npc.damage = 165;
+            if (npc.damage < 120)
+                npc.damage = 120;
 
             NPC golem = FargoSoulsUtil.NPCExists(NPC.golemBoss, NPCID.Golem);
             if (npc.type == NPCID.GolemHead)

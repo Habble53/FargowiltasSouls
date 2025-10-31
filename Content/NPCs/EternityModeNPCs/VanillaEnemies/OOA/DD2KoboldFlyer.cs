@@ -19,7 +19,10 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.VanillaEnemies.OOA
         );
 
         public int Counter = 0;
-
+        public override void SetDefaults(NPC npc)
+        {
+            npc.lifeMax /= 2;
+        }
         public override void SendExtraAI(NPC npc, BitWriter bitWriter, BinaryWriter binaryWriter)
         {
             base.SendExtraAI(npc, bitWriter, binaryWriter);
