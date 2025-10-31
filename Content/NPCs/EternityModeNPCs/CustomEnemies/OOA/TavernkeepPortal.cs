@@ -1,12 +1,9 @@
 ﻿using FargowiltasSouls.Assets.Sounds;
+using FargowiltasSouls.Assets.Textures;
 using FargowiltasSouls.Common.Graphics.Particles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
@@ -17,22 +14,21 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
 {
     public class TavernkeepPortal : ModNPC
     {
-        public override string Texture => "Terraria/Images/NPC_549";
+        public override string Texture => FargoAssets.GetAssetString("Content/NPCs", Name);
 
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
-            Main.npcFrameCount[Type] = 8;
+            Main.npcFrameCount[Type] = 9;
             NPCID.Sets.ImmuneToAllBuffs[Type] = true;
-            NPCID.Sets.BelongsToInvasionOldOnesArmy[Type] = true;
             this.ExcludeFromBestiary();
         }
 
         public override void SetDefaults()
         {
             NPC.damage = 0;
-            NPC.width = 80;
-            NPC.height = 120;
+            NPC.width = 120;
+            NPC.height = 180;
             NPC.lifeMax = 1000;
             NPC.ShowNameOnHover = false;
             NPC.dontTakeDamage = true;
@@ -44,45 +40,73 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
         public override void AI()
         {
             NPC.dontTakeDamage = true;
-            void SparkCircle(int count, Color color, float posOffset, float vel, float scale, int lifeTime)
+            void SparkCircle(Vector2 center, int count, Color color, float posOffset, float vel, float scale, int lifeTime)
             {
                 for (int i = 0; i < count; i++)
                 {
                     float rot = Main.rand.NextFloat(0, MathHelper.TwoPi);
                     Vector2 rotX = Vector2.UnitX.RotatedBy(rot);
-                    new SparkParticle(NPC.Center + posOffset * rotX, vel * rotX, color, scale, lifeTime).Spawn();
+                    new SparkParticle(center + posOffset * rotX, vel * rotX, color, scale, lifeTime).Spawn();
                 }
             }
 
             timer++;
-            if (state != 1)
+            if (state != 2 && state != 6)
                 Lighting.AddLight(NPC.Center, TorchID.Purple);
 
             switch (state)
             {
                 case 0:
                     {
+
+                        int cPlayer = Player.FindClosest(NPC.position, NPC.width, NPC.height);
+                        if (cPlayer != -1 && NPC.Distance(Main.player[cPlayer].Center) < 250)
+                        {
+                            SoundEngine.PlaySound(SoundID.Zombie103, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DD2_BetsyFlyingCircleAttack with { Pitch = -1f }, NPC.Center);
+                            state = 1;
+                            timer = 0;
+                        }
                         break;
                     }
                 case 1:
+                    {
+
+                        if (timer % 3 == 0)
+                        {
+                            new SparkParticle(NPC.Center, 5 * Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi), Color.Purple, 0.3f, 30).Spawn();
+                            new SparkParticle(NPC.Center, 5 * Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi), Color.Lerp(Color.Purple, Color.Pink, 0.3f), 0.3f, 30).Spawn();
+                        }
+
+                        if (timer > 60)
+                        {
+                            NPC.velocity *= 0;
+
+                            state = 2;
+                            timer = 0;
+                        }
+                        break;
+                    }
+                case 2:
                     {
                         if (timer % 45 == 0)
                         {
                             SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
                             FargoSoulsUtil.ScreenshakeRumble(1.5f);
 
-                            SparkCircle(10, Color.Purple, 5, 3, 0.3f, 20);
-                            SparkCircle(10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 10);
+                            Vector2 value = new Vector2(0, NPC.height / 8);
+                            SparkCircle(NPC.Center, 10, Color.Purple, 5, 3, 0.3f, 20);
+                            SparkCircle(NPC.Center, 10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 10);
                         }
                         if (timer > 45 * 3)
                         {
                             SoundEngine.PlaySound(SoundID.DD2_EtherianPortalOpen with { Volume = 2f }, NPC.Center);
                             timer = 0;
-                            state = 1;
+                            state = 3;
                         }
                         break;
                     }
-                case 2:
+                case 3:
                     {
                         NPC.TargetClosest();
                         float scale = timer / 60f;
@@ -90,12 +114,12 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
 
                         if (timer > 60)
                         {
-                            state = 2;
+                            state = 4;
                             timer = 0;
                         }
                         break;
                     }
-                case 3:
+                case 4:
                     {
                         if (timer == 1)
                         {
@@ -128,12 +152,12 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
 
                         if (timer >= 260)
                         {
-                            state = 3;
+                            state = 5;
                             timer = 0;
                         }
                         break;
                     }
-                case 4:
+                case 5:
                     {
                         float scale = (60 - timer) / 60f;
                         Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Shadowflame, Scale: scale);
@@ -144,9 +168,21 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
                         if (timer > 60)
                         {
                             SoundEngine.PlaySound(SoundID.DD2_EtherianPortalDryadTouch with { Pitch = 0.5f }, NPC.Center);
+                            for (int i = 0; i < 3; i++)
+                                SoundEngine.PlaySound(SoundID.DD2_BetsyDeath with { Pitch = -0.2f, Volume = 2f, Variants = [1] }); // play globally
                             FargoSoulsUtil.ScreenshakeRumble(1.5f);
-                            SparkCircle(10, Color.Purple, 5, 3, 0.3f, 30);
-                            SparkCircle(10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 15);
+                            SparkCircle(NPC.Center, 10, Color.Purple, 5, 3, 0.3f, 30);
+                            SparkCircle(NPC.Center, 10, Color.Lerp(Color.Purple, Color.Pink, 0.3f), 5, 2, 0.3f, 15);
+                            timer = 0;
+                            state = 6;
+                        }
+                        break;
+                    }
+                case 6:
+                    {
+                        FargoSoulsUtil.ScreenshakeRumble(0.8f);
+                        if (timer > 340)
+                        {
                             NPC.active = false;
                         }
                         break;
@@ -171,19 +207,45 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D text = TextureAssets.Npc[Type].Value;
-            Vector2 origin2 = NPC.frame.Size() / 2;
-
+            Texture2D texture = TextureAssets.Npc[Type].Value;
+            Rectangle frame;
+            Vector2 origin2;
+            Vector2 offset = Vector2.Zero;
+            int frameY = 0;
             float scale = NPC.scale;
+
+            if (state == 0 || state == 1)
+            {
+                if (state == 1)
+                    scale = (60 - timer) / 60;
+                frameY = (int)Math.Floor(timer / 8) % 9;
+                frame = texture.Frame(1, 9, 0, frameY);
+                offset = new Vector2(0, -10 * scale);
+                origin2 = frame.Size() / 2 + (offset / 2);
+                for (int i = 0; i < 3; i++)
+                {
+                    float rot = (0.05f * timer) + MathHelper.TwoPi * i / 3f;
+                    Main.EntitySpriteDraw(texture, NPC.Center - screenPos + offset + 4 * Vector2.UnitX.RotatedBy(rot), frame, Color.Pink * 0.3f, 0, origin2, scale, SpriteEffects.None);
+                }
+                Main.EntitySpriteDraw(texture, NPC.Center - screenPos + offset, frame, Color.Pink, 0, origin2, scale, SpriteEffects.None);
+                
+                return false;
+            }
+
+            texture = TextureAssets.Npc[NPCID.DD2LanePortal].Value;
+            frameY = (int)Math.Floor(timer / 8) % 8;
+            frame = texture.Frame(1, 8, 0, frameY);
+            origin2 = frame.Size() / 2;
             switch(state)
             {
-                case 0:
+                case 2:
+                case 6:
                     scale *= 0f;
                     break;
-                case 1:
+                case 3:
                     scale *= MathHelper.Clamp(timer / 60, 0f, 1f);
                     break;
-                case 3:
+                case 5:
                     scale *= MathHelper.Clamp((60 - timer) / 60, 0f, 1f);
                     break;
                 default:
@@ -191,21 +253,13 @@ namespace FargowiltasSouls.Content.NPCs.EternityModeNPCs.CustomEnemies.OOA
             }
 
             float opac = 1;
-            if (state == 3)
+            if (state == 5)
                 opac *= MathHelper.Clamp((60 - timer) / 60, 0f, 1f);
 
-            Main.EntitySpriteDraw(text, NPC.Center - screenPos - (scale * NPC.height / 4) * Vector2.UnitY, NPC.frame, Color.Pink * opac, 0, origin2, scale, SpriteEffects.None);
+            offset = new Vector2(0, - NPC.scale / 4 * NPC.height);
+            Main.EntitySpriteDraw(texture, NPC.Center - screenPos, frame, Color.Pink * opac, 0, origin2 + 10 * Vector2.UnitY, scale, SpriteEffects.None);
 
-            Texture2D eyeText = TextureAssets.Extra[ExtrasID.DD2ElderEye].Value;
-            int frameHeight = eyeText.Height / 8;
-            Rectangle eyeFrame = new Rectangle(0, (int)NPC.ai[2] * frameHeight, eyeText.Width, frameHeight);
-            Vector2 eyeOrigin = eyeFrame.Size() / 2;
-            Vector2 eyeOffset = (NPC.height / 4) * Vector2.UnitY;
-            eyeOffset.Y *= 4 * scale;
-
-            //Main.EntitySpriteDraw(eyeText, NPC.Center - screenPos - eyeOffset, eyeFrame, Color.Pink * opac, 0, eyeOrigin, 0.25f + (opac * scale / 2), SpriteEffects.None);
-
-            if (state == 2)
+            if (state == 4)
                 AnimateOgre(screenPos, drawColor);
 
             return false;
